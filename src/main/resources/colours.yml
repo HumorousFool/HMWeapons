@@ -1,0 +1,527 @@
+Ingots:
+  0:
+    RGB: [0, 0, 0]
+    Material: FEATHER
+Staffs:
+  1: # Leather
+    RGB: [198, 92, 53]
+    Material: BRICK
+  2: # Chain
+    RGB: [150, 150, 150]
+    Material: BRICK
+  3: # Wood
+    RGB: [194, 157, 98]
+    Material: BRICK
+  4: # Stone
+    RGB: [136, 135, 136]
+    Material: BRICK
+  5: # Iron
+    RGB: [168, 168, 168]
+    Material: BRICK
+  6: # Gold
+    RGB: [233, 177, 21]
+    Material: BRICK
+  7: # Diamond
+    RGB: [74, 237, 217]
+    Material: BRICK
+  9: # Steel
+    RGB: [109, 109, 109]
+    Material: BRICK
+  10: # Dark Steel
+    RGB: [58, 58, 58]
+    Material: BRICK
+  11: # Mycelite
+    RGB: [106, 101, 125]
+    Material: BRICK
+  12: # Mythril
+    RGB: [196, 216, 220]
+    Material: BRICK
+  13: # Dragon Bone
+    RGB: [206, 202, 173]
+    Material: BRICK
+NetheriteStaffs:
+  8: # Netherite
+    RGB: [76, 65, 67]
+    Material: NETHERITE_SCRAP
+  14: # Dwarven Steel
+    RGB: [35, 34, 42]
+    Material: NETHERITE_SCRAP
+Swords:
+  1: # Leather
+    RGB: [198, 92, 53]
+    Material: IRON_SWORD
+  2: # Chain
+    RGB: [150, 150, 150]
+    Material: IRON_SWORD
+  3: # Wood
+    RGB: [194, 157, 98]
+    Material: IRON_SWORD
+  4: # Stone
+    RGB: [136, 135, 136]
+    Material: IRON_SWORD
+  5: # Iron
+    RGB: [168, 168, 168]
+    Material: IRON_SWORD
+  6: # Gold
+    RGB: [233, 177, 21]
+    Material: IRON_SWORD
+  7: # Diamond
+    RGB: [74, 237, 217]
+    Material: IRON_SWORD
+  9: # Steel
+    RGB: [109, 109, 109]
+    Material: IRON_SWORD
+  10: # Dark Steel
+    RGB: [58, 58, 58]
+    Material: IRON_SWORD
+  11: # Mycelite
+    RGB: [106, 101, 125]
+    Material: IRON_SWORD
+  12: # Mythril
+    RGB: [196, 216, 220]
+    Material: IRON_SWORD
+  13: # Dragon Bone
+    RGB: [206, 202, 173]
+    Material: IRON_SWORD
+NetheriteSwords:
+  8: # Netherite
+    RGB: [76, 65, 67]
+    Material: NETHERITE_SWORD
+  14: # Dwarven Steel
+    RGB: [35, 34, 42]
+    Material: NETHERITE_SWORD
+Greatswords:
+  1: # Leather
+    RGB: [198, 92, 53]
+    Material: DIAMOND_SWORD
+  2: # Chain
+    RGB: [150, 150, 150]
+    Material: DIAMOND_SWORD
+  3: # Wood
+    RGB: [194, 157, 98]
+    Material: DIAMOND_SWORD
+  4: # Stone
+    RGB: [136, 135, 136]
+    Material: DIAMOND_SWORD
+  5: # Iron
+    RGB: [168, 168, 168]
+    Material: DIAMOND_SWORD
+  6: # Gold
+    RGB: [233, 177, 21]
+    Material: DIAMOND_SWORD
+  7: # Diamond
+    RGB: [74, 237, 217]
+    Material: DIAMOND_SWORD
+  9: # Steel
+    RGB: [109, 109, 109]
+    Material: DIAMOND_SWORD
+  10: # Dark Steel
+    RGB: [58, 58, 58]
+    Material: DIAMOND_SWORD
+  11: # Mycelite
+    RGB: [106, 101, 125]
+    Material: DIAMOND_SWORD
+  12: # Mythril
+    RGB: [196, 216, 220]
+    Material: DIAMOND_SWORD
+  13: # Dragon Bone
+    RGB: [206, 202, 173]
+    Material: DIAMOND_SWORD
+NetheriteGreatswords:
+  9: # Netherite
+    RGB: [76, 65, 67]
+    Material: NETHERITE_SWORD
+  15: # Dwarven Steel
+    RGB: [35, 34, 42]
+    Material: NETHERITE_SWORD
+Maces:
+  14: # Leather
+    RGB: [198, 92, 53]
+    Material: BRICK
+  15: # Chain
+    RGB: [150, 150, 150]
+    Material: BRICK
+  16: # Wood
+    RGB: [194, 157, 98]
+    Material: BRICK
+  17: # Stone
+    RGB: [136, 135, 136]
+    Material: BRICK
+  18: # Iron
+    RGB: [168, 168, 168]
+    Material: BRICK
+  19: # Gold
+    RGB: [233, 177, 21]
+    Material: BRICK
+  20: # Diamond
+    RGB: [74, 237, 217]
+    Material: BRICK
+  21: # Steel
+    RGB: [109, 109, 109]
+    Material: BRICK
+  22: # Dark Steel
+    RGB: [58, 58, 58]
+    Material: BRICK
+  23: # Mycelite
+    RGB: [106, 101, 125]
+    Material: BRICK
+  24: # Mythril
+    RGB: [196, 216, 220]
+    Material: BRICK
+  25: # Dragon Bone
+    RGB: [206, 202, 173]
+    Material: BRICK
+NetheriteMaces:
+  9: # Netherite
+    RGB: [76, 65, 67]
+    Material: NETHERITE_SCRAP
+  15: # Dwarven Steel
+    RGB: [35, 34, 42]
+    Material: NETHERITE_SCRAP
+Tridents:
+  1: # Leather
+    RGB: [198, 92, 53]
+    Material: TRIDENT
+  2: # Chain
+    RGB: [150, 150, 150]
+    Material: TRIDENT
+  3: # Wood
+    RGB: [194, 157, 98]
+    Material: TRIDENT
+  4: # Stone
+    RGB: [136, 135, 136]
+    Material: TRIDENT
+  5: # Iron
+    RGB: [168, 168, 168]
+    Material: TRIDENT
+  6: # Gold
+    RGB: [233, 177, 21]
+    Material: TRIDENT
+  7: # Diamond
+    RGB: [74, 237, 217]
+    Material: TRIDENT
+  8: # Netherite
+    RGB: [ 76, 65, 67 ]
+    Material: TRIDENT
+  9: # Steel
+    RGB: [109, 109, 109]
+    Material: TRIDENT
+  10: # Dark Steel
+    RGB: [58, 58, 58]
+    Material: TRIDENT
+  11: # Mycelite
+    RGB: [106, 101, 125]
+    Material: TRIDENT
+  12: # Mythril
+    RGB: [196, 216, 220]
+    Material: TRIDENT
+  13: # Dragon Bone
+    RGB: [206, 202, 173]
+    Material: TRIDENT
+  14: # Dwarven Steel
+    RGB: [ 35, 34, 42 ]
+    Material: TRIDENT
+Battleaxes:
+  1: # Leather
+    RGB: [198, 92, 53]
+    Material: IRON_AXE
+  2: # Chain
+    RGB: [150, 150, 150]
+    Material: IRON_AXE
+  3: # Wood
+    RGB: [194, 157, 98]
+    Material: IRON_AXE
+  4: # Stone
+    RGB: [136, 135, 136]
+    Material: IRON_AXE
+  5: # Iron
+    RGB: [168, 168, 168]
+    Material: IRON_AXE
+  6: # Gold
+    RGB: [233, 177, 21]
+    Material: IRON_AXE
+  7: # Diamond
+    RGB: [74, 237, 217]
+    Material: IRON_AXE
+  9: # Steel
+    RGB: [109, 109, 109]
+    Material: IRON_AXE
+  10: # Dark Steel
+    RGB: [58, 58, 58]
+    Material: IRON_AXE
+  11: # Mycelite
+    RGB: [106, 101, 125]
+    Material: IRON_AXE
+  12: # Mythril
+    RGB: [196, 216, 220]
+    Material: IRON_AXE
+  13: # Dragon Bone
+    RGB: [206, 202, 173]
+    Material: IRON_AXE
+NetheriteBattleaxes:
+  8: # Netherite
+    RGB: [76, 65, 67]
+    Material: NETHERITE_AXE
+  14: # Dwarven Steel
+    RGB: [35, 34, 42]
+    Material: NETHERITE_AXE
+Mauls:
+  26: # Leather
+    RGB: [198, 92, 53]
+    Material: BRICK
+  27: # Chain
+    RGB: [150, 150, 150]
+    Material: BRICK
+  28: # Wood
+    RGB: [194, 157, 98]
+    Material: BRICK
+  29: # Stone
+    RGB: [136, 135, 136]
+    Material: BRICK
+  30: # Iron
+    RGB: [168, 168, 168]
+    Material: BRICK
+  31: # Gold
+    RGB: [233, 177, 21]
+    Material: BRICK
+  32: # Diamond
+    RGB: [74, 237, 217]
+    Material: BRICK
+  33: # Steel
+    RGB: [109, 109, 109]
+    Material: BRICK
+  34: # Dark Steel
+    RGB: [58, 58, 58]
+    Material: BRICK
+  35: # Mycelite
+    RGB: [106, 101, 125]
+    Material: BRICK
+  36: # Mythril
+    RGB: [196, 216, 220]
+    Material: BRICK
+  37: # Dragon Bone
+    RGB: [206, 202, 173]
+    Material: BRICK
+NetheriteMauls:
+  10: # Netherite
+    RGB: [76, 65, 67]
+    Material: NETHERITE_SCRAP
+  16: # Dwarven Steel
+    RGB: [35, 34, 42]
+    Material: NETHERITE_SCRAP
+Halberds:
+  1: # Leather
+    RGB: [198, 92, 53]
+    Material: STONE_SWORD
+  2: # Chain
+    RGB: [150, 150, 150]
+    Material: STONE_SWORD
+  3: # Wood
+    RGB: [194, 157, 98]
+    Material: STONE_SWORD
+  4: # Stone
+    RGB: [136, 135, 136]
+    Material: STONE_SWORD
+  5: # Iron
+    RGB: [168, 168, 168]
+    Material: STONE_SWORD
+  6: # Gold
+    RGB: [233, 177, 21]
+    Material: STONE_SWORD
+  7: # Diamond
+    RGB: [74, 237, 217]
+    Material: STONE_SWORD
+  9: # Steel
+    RGB: [109, 109, 109]
+    Material: STONE_SWORD
+  10: # Dark Steel
+    RGB: [58, 58, 58]
+    Material: STONE_SWORD
+  11: # Mycelite
+    RGB: [106, 101, 125]
+    Material: STONE_SWORD
+  12: # Mythril
+    RGB: [196, 216, 220]
+    Material: STONE_SWORD
+  13: # Dragon Bone
+    RGB: [206, 202, 173]
+    Material: STONE_SWORD
+NetheriteHalberds:
+  10: # Netherite
+    RGB: [76, 65, 67]
+    Material: NETHERITE_SWORD
+  16: # Dwarven Steel
+    RGB: [35, 34, 42]
+    Material: NETHERITE_SWORD
+Bows:
+  1: # Leather
+    RGB: [ 198, 92, 53 ]
+    Material: BOW
+  2: # Chain
+    RGB: [ 150, 150, 150 ]
+    Material: BOW
+  3: # Wood
+    RGB: [ 194, 157, 98 ]
+    Material: BOW
+  4: # Stone
+    RGB: [ 136, 135, 136 ]
+    Material: BOW
+  5: # Iron
+    RGB: [ 168, 168, 168 ]
+    Material: BOW
+  6: # Gold
+    RGB: [ 233, 177, 21 ]
+    Material: BOW
+  7: # Diamond
+    RGB: [ 74, 237, 217 ]
+    Material: BOW
+  8: # Netherite
+    RGB: [ 76, 65, 67 ]
+    Material: BOW
+  9: # Steel
+    RGB: [ 109, 109, 109 ]
+    Material: BOW
+  10: # Dark Steel
+    RGB: [ 58, 58, 58 ]
+    Material: BOW
+  11: # Mycelite
+    RGB: [ 106, 101, 125 ]
+    Material: BOW
+  12: # Mythril
+    RGB: [ 196, 216, 220 ]
+    Material: BOW
+  13: # Dragon Bone
+    RGB: [ 206, 202, 173 ]
+    Material: BOW
+  14: # Dwarven Steel
+    RGB: [ 35, 34, 42 ]
+    Material: BOW
+Longbows:
+  15: # Leather
+    RGB: [ 198, 92, 53 ]
+    Material: BOW
+  16: # Chain
+    RGB: [ 150, 150, 150 ]
+    Material: BOW
+  17: # Wood
+    RGB: [ 194, 157, 98 ]
+    Material: BOW
+  18: # Stone
+    RGB: [ 136, 135, 136 ]
+    Material: BOW
+  19: # Iron
+    RGB: [ 168, 168, 168 ]
+    Material: BOW
+  20: # Gold
+    RGB: [ 233, 177, 21 ]
+    Material: BOW
+  21: # Diamond
+    RGB: [ 74, 237, 217 ]
+    Material: BOW
+  22: # Netherite
+    RGB: [ 76, 65, 67 ]
+    Material: BOW
+  23: # Steel
+    RGB: [ 109, 109, 109 ]
+    Material: BOW
+  24: # Dark Steel
+    RGB: [ 58, 58, 58 ]
+    Material: BOW
+  25: # Mycelite
+    RGB: [ 106, 101, 125 ]
+    Material: BOW
+  26: # Mythril
+    RGB: [ 196, 216, 220 ]
+    Material: BOW
+  27: # Dragon Bone
+    RGB: [ 206, 202, 173 ]
+    Material: BOW
+  28: # Dwarven Steel
+    RGB: [ 35, 34, 42 ]
+    Material: BOW
+Crossbows:
+  1: # Leather
+    RGB: [ 198, 92, 53 ]
+    Material: CROSSBOW
+  2: # Chain
+    RGB: [ 150, 150, 150 ]
+    Material: CROSSBOW
+  3: # Wood
+    RGB: [ 194, 157, 98 ]
+    Material: CROSSBOW
+  4: # Stone
+    RGB: [ 136, 135, 136 ]
+    Material: CROSSBOW
+  5: # Iron
+    RGB: [ 168, 168, 168 ]
+    Material: CROSSBOW
+  6: # Gold
+    RGB: [ 233, 177, 21 ]
+    Material: CROSSBOW
+  7: # Diamond
+    RGB: [ 74, 237, 217 ]
+    Material: CROSSBOW
+  8: # Netherite
+    RGB: [ 76, 65, 67 ]
+    Material: CROSSBOW
+  9: # Steel
+    RGB: [ 109, 109, 109 ]
+    Material: CROSSBOW
+  10: # Dark Steel
+    RGB: [ 58, 58, 58 ]
+    Material: CROSSBOW
+  11: # Mycelite
+    RGB: [ 106, 101, 125 ]
+    Material: CROSSBOW
+  12: # Mythril
+    RGB: [ 196, 216, 220 ]
+    Material: CROSSBOW
+  13: # Dragon Bone
+    RGB: [ 206, 202, 173 ]
+    Material: CROSSBOW
+  14: # Dwarven Steel
+    RGB: [ 35, 34, 42 ]
+    Material: CROSSBOW
+Shields:
+  1: # Leather
+    RGB: [ 198, 92, 53 ]
+    Material: SHIELD
+  2: # Chain
+    RGB: [ 150, 150, 150 ]
+    Material: SHIELD
+  3: # Wood
+    RGB: [ 194, 157, 98 ]
+    Material: SHIELD
+  4: # Stone
+    RGB: [ 136, 135, 136 ]
+    Material: SHIELD
+  5: # Iron
+    RGB: [ 168, 168, 168 ]
+    Material: SHIELD
+  6: # Gold
+    RGB: [ 233, 177, 21 ]
+    Material: SHIELD
+  7: # Diamond
+    RGB: [ 74, 237, 217 ]
+    Material: SHIELD
+  8: # Netherite
+    RGB: [ 76, 65, 67 ]
+    Material: SHIELD
+  9: # Steel
+    RGB: [ 109, 109, 109 ]
+    Material: SHIELD
+  10: # Dark Steel
+    RGB: [ 58, 58, 58 ]
+    Material: SHIELD
+  11: # Mycelite
+    RGB: [ 106, 101, 125 ]
+    Material: SHIELD
+  12: # Mythril
+    RGB: [ 196, 216, 220 ]
+    Material: SHIELD
+  13: # Dragon Bone
+    RGB: [ 206, 202, 173 ]
+    Material: SHIELD
+  14: # Dwarven Steel
+    RGB: [ 35, 34, 42 ]
+    Material: SHIELD

@@ -1,0 +1,31 @@
+name: HMWeapons
+version: ${project.version}
+main: io.github.humorousfool.hmweapons.HMWeapons
+api-version: 1.18
+prefix: HMWeapons
+depend: [HMCombat, SimpleLeveling]
+authors: [HumorousFool]
+description: A minecraft weapons plugin.
+website: https://humorousfool.github.io
+
+commands:
+  materials:
+    description: Displays all registered materials.
+    permission: hmweapons.command.materials
+  crafters:
+    description: Displays all available crafters.
+    permission: hmweapons.command.crafters
+  shapes:
+    description: Displays all registered shapes.
+    permission: hmweapons.command.shapes
+
+permissions:
+  hmweapons.command.materials:
+    description: Allows you to use the /materials command.
+    default: op
+  hmweapons.command.crafters:
+    description: Allows you to use the /crafters command.
+    default: op
+  hmweapons.command.shapes:
+    description: Allows you to use the /shapes command.
+    default: op

@@ -1,0 +1,51 @@
+Leather:
+  Materials:
+    - LEATHER
+    - LEATHER
+    - LEATHER
+  Result: 1
+Chain:
+  Materials:
+    - 5
+    - IRON_NUGGET
+  Result: 2
+Wood:
+  Materials:
+    - OAK_PLANKS
+    - OAK_PLANKS
+    - OAK_PLANKS
+  Result: 3
+Stone:
+  Materials:
+    - COBBLESTONE
+    - COBBLESTONE
+    - COBBLESTONE
+  Result: 4
+Iron:
+  Materials:
+    - IRON_INGOT
+    - IRON_INGOT
+    - IRON_INGOT
+  Result: 5
+Gold:
+  Materials:
+    - GOLD_INGOT
+    - GOLD_INGOT
+    - GOLD_INGOT
+  Result: 6
+Diamond:
+  Materials:
+    - DIAMOND
+    - DIAMOND
+    - DIAMOND
+  Result: 7
+Netherite:
+  Materials:
+    - NETHERITE_INGOT
+    - NETHERITE_INGOT
+  Result: 8
+Steel:
+  Materials:
+    - COAL
+    - 5
+  Result: 9
