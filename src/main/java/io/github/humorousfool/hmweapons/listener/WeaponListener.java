@@ -6,16 +6,13 @@ import io.github.humorousfool.hmweapons.localisation.I18nSupport;
 import io.github.humorousfool.hmweapons.util.AttributeUtil;
 import org.bukkit.*;
 import org.bukkit.entity.Arrow;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.entity.ProjectileLaunchEvent;
+import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
@@ -54,6 +51,9 @@ public class WeaponListener implements Listener
     public void onClick(InventoryClickEvent event)
     {
         if(event.isCancelled() || event.getInventory().getType() != InventoryType.CRAFTING) return;
+
+        // Drop also gets called in survival but in creative only click gets called
+        if(event.getWhoClicked().getGameMode() != GameMode.CREATIVE && event.getClick() == ClickType.DROP) return;
 
         Player player = (Player) event.getWhoClicked();
         if(event.getSlot() == player.getInventory().getHeldItemSlot())
@@ -99,6 +99,31 @@ public class WeaponListener implements Listener
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
+    public void onDrop(PlayerDropItemEvent event)
+    {
+        if(event.isCancelled() || event.getPlayer().getInventory().getItemInMainHand().getType() != Material.AIR) return;
+
+        if(durabilities.containsKey(event.getPlayer()) && durabilities.get(event.getPlayer()).mainHandDurability >= 0)
+        {
+            ItemStack item = writeDurabilityItem(event.getPlayer(), event.getItemDrop().getItemStack(), EquipmentSlot.HAND);
+            if(item == null) return;
+            event.getItemDrop().setItemStack(item);
+            readDurability(event.getPlayer(), EquipmentSlot.OFF_HAND);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
+    public void onPickup(EntityPickupItemEvent event)
+    {
+        if(event.isCancelled() || !isValidWeapon(event.getItem().getItemStack()) || !(event.getEntity() instanceof Player player)) return;
+
+        if(player.getInventory().getHeldItemSlot() == player.getInventory().firstEmpty())
+        {
+            Bukkit.getScheduler().scheduleSyncDelayedTask(HMWeapons.getInstance(), () -> readDurability(player, EquipmentSlot.OFF_HAND), 1L);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.MONITOR)
     public void onLeave(PlayerQuitEvent event)
     {
         writeDurability(event.getPlayer(), EquipmentSlot.HAND);
@@ -109,14 +134,14 @@ public class WeaponListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR)
     public void onBreak(BlockBreakEvent event)
     {
-        if(event.isCancelled() || event.getBlock().getType().getHardness() == 0) return;
+        if(event.isCancelled() || event.getBlock().getType().getHardness() == 0 || !isMelee(event.getPlayer().getInventory().getItemInMainHand())) return;
 
-        if(!durabilities.containsKey(event.getPlayer()) && isMelee(event.getPlayer().getInventory().getItemInMainHand()))
+        if(!durabilities.containsKey(event.getPlayer()))
         {
             readDurability(event.getPlayer(), EquipmentSlot.OFF_HAND);
         }
 
-        if(durabilities.get(event.getPlayer()).mainHandDurability < 0)
+        if(durabilities.containsKey(event.getPlayer()) && durabilities.get(event.getPlayer()).mainHandDurability < 0)
         {
             event.setCancelled(true);
             return;
@@ -128,24 +153,56 @@ public class WeaponListener implements Listener
     @EventHandler
     public void onHit(EntityDamageByEntityEvent event)
     {
-        if(event.isCancelled() || event.getDamage() <= 0D || !(event.getDamager() instanceof Player player)) return;
+        if(event.isCancelled()) return;
 
-        if(!durabilities.containsKey(player) && isMelee(player.getInventory().getItemInMainHand()))
+        if((event.getEntity() instanceof Player player) && player.isBlocking() && event.getDamage(EntityDamageEvent.DamageModifier.BLOCKING) < 0)
         {
-            readDurability(player, EquipmentSlot.OFF_HAND);
-        }
-        if(durabilities.containsKey(player) && isMelee(player.getInventory().getItemInMainHand()))
-        {
-            WeaponDurabilityInfo values = durabilities.get(player);
-            if(values.mainHandDurability < 0)
+            EquipmentSlot slot = null;
+            if(player.getInventory().getItemInMainHand().getType() == Material.SHIELD)
+                slot = EquipmentSlot.HAND;
+            else if(player.getInventory().getItemInOffHand().getType() == Material.SHIELD)
+                slot = EquipmentSlot.OFF_HAND;
+
+            if(slot != null)
             {
-                event.setCancelled(true);
-                player.sendMessage(ChatColor.DARK_RED + I18nSupport.getInternationalisedString("Item Is Broken"));
-                player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 1f, 0.5f);
-                return;
+                if(!durabilities.containsKey(player))
+                {
+                    readDurability(player, EquipmentSlot.OFF_HAND);
+                }
+                if(durabilities.containsKey(player))
+                {
+                    WeaponDurabilityInfo values = durabilities.get(player);
+                    if(values.getDurability(slot) < 0)
+                    {
+                        event.setDamage(EntityDamageEvent.DamageModifier.BLOCKING, 0);
+                        player.sendMessage(ChatColor.DARK_RED + I18nSupport.getInternationalisedString("Item Is Broken"));
+                        player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 1f, 0.5f);
+                    }
+                    else
+                        updateDurability(player, slot);
+                }
             }
+        }
 
-            updateDurability(player, EquipmentSlot.HAND);
+        if(event.getDamage() > 0D && (event.getDamager() instanceof Player player))
+        {
+            if(!durabilities.containsKey(player) && isMelee(player.getInventory().getItemInMainHand()))
+            {
+                readDurability(player, EquipmentSlot.OFF_HAND);
+            }
+            if(durabilities.containsKey(player) && isMelee(player.getInventory().getItemInMainHand()))
+            {
+                WeaponDurabilityInfo values = durabilities.get(player);
+                if(values.mainHandDurability < 0)
+                {
+                    event.setCancelled(true);
+                    player.sendMessage(ChatColor.DARK_RED + I18nSupport.getInternationalisedString("Item Is Broken"));
+                    player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 1f, 0.5f);
+                }
+                else
+                    updateDurability(player, EquipmentSlot.HAND);
+                writeDurability(player, EquipmentSlot.HAND);
+            }
         }
     }
 
@@ -263,11 +320,15 @@ public class WeaponListener implements Listener
     {
         ItemStack item = writeDurabilityItem(player, slot);
         if(item == null) return;
-        player.getInventory().setItem(slot, item);
+    }
+
+    private ItemStack writeDurabilityItem(Player player, EquipmentSlot slot)
+    {
+        return writeDurabilityItem(player, player.getInventory().getItem(slot), slot);
     }
 
     // Updates one
-    private ItemStack writeDurabilityItem(Player player, EquipmentSlot slot)
+    private ItemStack writeDurabilityItem(Player player, ItemStack item, EquipmentSlot slot)
     {
         player.sendMessage("Writing " + slot.name());
         WeaponDurabilityInfo values = durabilities.get(player);
@@ -281,7 +342,6 @@ public class WeaponListener implements Listener
             durabilities.replace(player, values);
         }
 
-        ItemStack item = player.getInventory().getItem(slot);
         // this can also be null
         if(item == null || !item.hasItemMeta()) return null;
         ItemMeta meta = item.getItemMeta();
@@ -307,7 +367,7 @@ public class WeaponListener implements Listener
 
     private boolean isValidWeapon(ItemStack item)
     {
-        return isMelee(item) || isRanged(item);
+        return AttributeUtil.getDurability(item) >= 0;
     }
 
     private boolean isMelee(ItemStack item)
