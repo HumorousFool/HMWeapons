@@ -9,9 +9,8 @@ import io.github.humorousfool.hmweapons.crafting.forging.Forge;
 import io.github.humorousfool.hmweapons.crafting.infusion.Infuser;
 import io.github.humorousfool.hmweapons.crafting.infusion.recipes.RecipeManager;
 import io.github.humorousfool.hmweapons.crafting.forging.ShapeManager;
-import io.github.humorousfool.hmweapons.listener.ArmourListener;
+import io.github.humorousfool.hmweapons.listener.PlayerListener;
 import io.github.humorousfool.hmweapons.listener.BlockListener;
-import io.github.humorousfool.hmweapons.listener.WeaponListener;
 import io.github.humorousfool.hmweapons.localisation.I18nSupport;
 import io.github.humorousfool.hmweapons.crafting.infusion.materials.MaterialManager;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -64,8 +63,7 @@ public final class HMWeapons extends JavaPlugin
         }
         ShapeManager.loadShapes(YamlConfiguration.loadConfiguration(shapeFile));
 
-        getServer().getPluginManager().registerEvents(new ArmourListener(), this);
-        getServer().getPluginManager().registerEvents(new WeaponListener(), this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
         getServer().getPluginManager().registerEvents(new Infuser(), this);
         getServer().getPluginManager().registerEvents(new Forge(), this);

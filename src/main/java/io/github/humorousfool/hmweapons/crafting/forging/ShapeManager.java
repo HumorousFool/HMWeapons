@@ -24,9 +24,9 @@ public class ShapeManager
             shapes.put(shape.id, shape);
         }
 
-        armourShapes.put("helmet", new ArmourShape("Helmet", "HELMET", 0.25f, Material.GOLD_NUGGET, 100, 6));
-        armourShapes.put("chestplate", new ArmourShape("Chestplate", "Chestplate", 0.35f, Material.GOLD_NUGGET, 101, 10));
-        armourShapes.put("leggings", new ArmourShape("Leggings", "Leggings", 0.32f, Material.GOLD_NUGGET, 102, 8));
-        armourShapes.put("boots", new ArmourShape("Boots", "Boots", 0.28f, Material.GOLD_NUGGET, 103, 6));
+        armourShapes.put("helmet", new ArmourShape("Helmet", "HELMET", Material.GOLD_NUGGET, 100, 6));
+        armourShapes.put("chestplate", new ArmourShape("Chestplate", "Chestplate", Material.GOLD_NUGGET, 101, 10));
+        armourShapes.put("leggings", new ArmourShape("Leggings", "Leggings", Material.GOLD_NUGGET, 102, 8));
+        armourShapes.put("boots", new ArmourShape("Boots", "Boots", Material.GOLD_NUGGET, 103, 6));
     }
 }

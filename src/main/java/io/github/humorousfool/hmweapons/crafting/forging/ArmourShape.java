@@ -16,11 +16,10 @@ import java.util.Locale;
 
 public class ArmourShape
 {
-    public ArmourShape(String name, String type, float durabilityMul, Material material, int customModelData, int materialsRequired)
+    public ArmourShape(String name, String type, Material material, int customModelData, int materialsRequired)
     {
         this.name = name;
         this.type = type;
-        this.durabilityMul = durabilityMul;
 
         this.material = material;
         this.customModelData = customModelData;
@@ -29,7 +28,6 @@ public class ArmourShape
 
     public final String name;
     public final String type;
-    public final float durabilityMul;
 
     public final Material material;
     public final int customModelData;
@@ -44,11 +42,10 @@ public class ArmourShape
             meta.setCustomModelData(customModelData);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
         meta.getPersistentDataContainer().set(ItemUtil.shapeKey, PersistentDataType.STRING, name.toLowerCase(Locale.ROOT).replace(' ', '_'));
-        AttributeUtil.setDurability(meta, Config.MaxShapeUses);
+        AttributeUtil.setUses(meta, Config.MaxShapeUses);
 
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.GRAY + "Materials Required: " + materialsRequired);
-        lore.add(ChatColor.GRAY + "Durability: " + durabilityMul + "x");
         lore.add("");
         lore.add(ChatColor.GRAY + "(" + Config.MaxShapeUses + "/" + Config.MaxShapeUses + ") Uses");
         meta.setLore(lore);

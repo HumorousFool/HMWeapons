@@ -17,8 +17,6 @@ public class MaterialStats
     public final double DAMAGE_REDUCTION;
     public final double ARMOUR_WEIGHT;
 
-    public final int DURABILITY;
-
     public final int ENCHANTABILITY;
 
     public MaterialStats(MemorySection stats)
@@ -29,14 +27,12 @@ public class MaterialStats
         this.PROJECTILE_VELOCITY = stats.getDouble("PROJECTILE_VELOCITY");
         this.DAMAGE_REDUCTION = stats.getDouble("DAMAGE_REDUCTION");
         this.ARMOUR_WEIGHT = stats.getDouble("ARMOUR_WEIGHT");
-        this.DURABILITY = stats.getInt("DURABILITY");
         this.ENCHANTABILITY = stats.getInt("ENCHANTABILITY");
     }
 
     public MaterialStats(double attackDamage, double attackPower,
                          double projectileDamage, double projectileVelocity,
-                         double damageReduction, double armourWeight, double durability,
-                         double enchantability)
+                         double damageReduction, double armourWeight, double enchantability)
     {
         this.ATTACK_DAMAGE = attackDamage;
         this.ATTACK_POWER = attackPower;
@@ -44,7 +40,6 @@ public class MaterialStats
         this.PROJECTILE_VELOCITY = projectileVelocity;
         this.DAMAGE_REDUCTION = damageReduction;
         this.ARMOUR_WEIGHT = armourWeight;
-        this.DURABILITY = (int) durability;
         this.ENCHANTABILITY = (int) enchantability;
     }
 
@@ -54,11 +49,10 @@ public class MaterialStats
 
         lore.add(ChatColor.GRAY + "Attack Damage: " + ItemUtil.formatDecimal(ATTACK_DAMAGE));
         lore.add(ChatColor.GRAY + "Attack Power: " + ItemUtil.formatDecimal(ATTACK_POWER));
-        lore.add(ChatColor.GRAY + "Projectile Damage: " + ItemUtil.formatDecimalPlus(PROJECTILE_DAMAGE) + "%");
+        lore.add(ChatColor.GRAY + "Projectile Damage: " + ItemUtil.formatDecimalPlus(PROJECTILE_DAMAGE));
         lore.add(ChatColor.GRAY + "Projectile Velocity: " + ItemUtil.formatDecimalPlus(PROJECTILE_VELOCITY) + "%");
         lore.add(ChatColor.GRAY + "Damage Reduction: " + ItemUtil.formatDecimal(DAMAGE_REDUCTION) + "%");
         lore.add(ChatColor.GRAY + "Armour Weight: " + ItemUtil.formatDecimal(ARMOUR_WEIGHT));
-        lore.add(ChatColor.GRAY + "Durability: " + DURABILITY);
         lore.add(ChatColor.GRAY + "Enchantability: " + ENCHANTABILITY);
 
         return lore;
@@ -68,7 +62,7 @@ public class MaterialStats
     {
         return new MaterialStats(ATTACK_DAMAGE + other.ATTACK_DAMAGE, ATTACK_POWER + other.ATTACK_POWER,
                 PROJECTILE_DAMAGE + other.PROJECTILE_DAMAGE, PROJECTILE_VELOCITY + other.PROJECTILE_VELOCITY,
-                DAMAGE_REDUCTION + other.DAMAGE_REDUCTION, ARMOUR_WEIGHT + other.ARMOUR_WEIGHT, DURABILITY + other.DURABILITY,
+                DAMAGE_REDUCTION + other.DAMAGE_REDUCTION, ARMOUR_WEIGHT + other.ARMOUR_WEIGHT,
                 ENCHANTABILITY + other.ENCHANTABILITY);
     }
 
@@ -76,8 +70,7 @@ public class MaterialStats
     {
         return new MaterialStats(ATTACK_DAMAGE / divider, ATTACK_POWER / divider,
                 PROJECTILE_DAMAGE / divider, PROJECTILE_VELOCITY / divider,
-                DAMAGE_REDUCTION / divider, ARMOUR_WEIGHT / divider, DURABILITY / divider,
-                ENCHANTABILITY / divider);
+                DAMAGE_REDUCTION / divider, ARMOUR_WEIGHT / divider, ENCHANTABILITY / divider);
     }
 
     public static MaterialStats average(ArrayList<MaterialStats> stats)

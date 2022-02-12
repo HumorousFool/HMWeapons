@@ -7,7 +7,6 @@ import org.bukkit.configuration.MemorySection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
@@ -129,7 +128,6 @@ public class ColourManager
 
     public static TextureInfo getClosestColourInGroup(String group, Color colour)
     {
-        System.out.println(group);
         if(!colourGroups.containsKey(group)) return null;
         HashMap<Color, TextureInfo> map = colourGroups.get(group);
 

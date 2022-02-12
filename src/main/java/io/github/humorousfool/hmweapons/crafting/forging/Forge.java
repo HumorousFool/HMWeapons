@@ -161,7 +161,7 @@ public class Forge implements Listener
                         mat.setAmount(Math.max(0, mat.getAmount() - (ShapeManager.shapes.get(shapeName).materialsRequired)));
                     }
 
-                    int uses = AttributeUtil.getDurability(shape);
+                    int uses = AttributeUtil.getUses(shape);
                     if(uses == 1 || uses == 0)
                     {
                         event.getView().getTopInventory().setItem(slots[1], new ItemStack(Material.AIR));
@@ -170,7 +170,7 @@ public class Forge implements Listener
                     {
                         uses -= 1;
                         ItemMeta meta = shape.getItemMeta();
-                        AttributeUtil.setDurability(meta, uses);
+                        AttributeUtil.setUses(meta, uses);
                         List<String> lore = meta.getLore();
                         lore.set(lore.size() - 1, ChatColor.GRAY + "(" + uses + "/" + Config.MaxShapeUses + ") Uses");
                         meta.setLore(lore);
@@ -266,7 +266,6 @@ public class Forge implements Listener
         double damageReduction = 0D;
         double armourWeight = 0D;
         int enchantability = 0;
-        float durability = 0;
 
         Material mat = null;
         boolean NoColour = false;
@@ -290,12 +289,10 @@ public class Forge implements Listener
             colours.add(m.colour);
             damageReduction += m.stats.DAMAGE_REDUCTION;
             armourWeight += m.stats.ARMOUR_WEIGHT;
-            durability += m.stats.DURABILITY;
             enchantability += m.stats.ENCHANTABILITY;
         }
         damageReduction /= materials.size();
         armourWeight /= materials.size();
-        durability = (durability /materials.size()) * shape.durabilityMul;
         enchantability /= materials.size();
 
         if(mat == null)
@@ -334,12 +331,11 @@ public class Forge implements Listener
             lore.add(ChatColor.BLUE + ItemUtil.formatDecimal(armourWeight) + " Armour Weight");
         lore.add("");
         lore.add(ChatColor.GRAY + "(0/" + enchantability + ") Enchantability");
-        lore.add(ChatColor.GRAY + "(" + (int) durability + "/" + (int) durability + ") Durability");
+        lore.add(ChatColor.GRAY + "(" + Config.MaxItemLives + "/" + Config.MaxItemLives + ") Lives");
 
         AttributeUtil.setDamageReduction(meta, damageReduction);
         AttributeUtil.setArmourWeight(meta, armourWeight);
-        AttributeUtil.setDurability(meta, (int) durability);
-        AttributeUtil.setMaxDurability(meta, (int) durability);
+        AttributeUtil.setLives(meta, Config.MaxItemLives);
         AttributeUtil.setMaxEnchantability(meta, enchantability);
 
         meta.setLore(lore);
@@ -380,8 +376,6 @@ public class Forge implements Listener
 
         if(texture == null) return new ItemStack(Material.AIR);
 
-        int durability = (int) ((float) stats.DURABILITY * shape.durabilityMul);
-
         ItemStack item = new ItemStack(texture.material);
         ItemMeta meta = item.getItemMeta();
 
@@ -414,8 +408,8 @@ public class Forge implements Listener
         }
         if(shape.projectileDamageMul != 0)
         {
-            lore.add(ChatColor.BLUE + ItemUtil.formatDecimalPlus(stats.PROJECTILE_DAMAGE * shape.projectileDamageMul) + "% Projectile Damage");
-            AttributeUtil.setProjectileDamage(meta, (stats.PROJECTILE_DAMAGE * shape.projectileDamageMul) / 100);
+            lore.add(ChatColor.BLUE + ItemUtil.formatDecimalPlus(stats.PROJECTILE_DAMAGE * shape.projectileDamageMul) + " Projectile Damage");
+            AttributeUtil.setProjectileDamage(meta, stats.PROJECTILE_DAMAGE * shape.projectileDamageMul);
         }
         if(shape.ranged)
         {
@@ -433,10 +427,13 @@ public class Forge implements Listener
 
         lore.add("");
         lore.add(ChatColor.GRAY + "(0/" + stats.ENCHANTABILITY + ") Enchantability");
-        lore.add(ChatColor.GRAY + "(" + durability + "/" + durability + ") Durability");
+        lore.add(ChatColor.GRAY + "(" + Config.MaxItemLives + "/" + Config.MaxItemLives + ") Lives");
+        if(shape.specialEffects.size() > 0)
+        {
+            AttributeUtil.setSpecialEffects(meta, shape.specialEffects.stream().mapToInt(Integer::intValue).toArray());
+        }
 
-        AttributeUtil.setDurability(meta, durability);
-        AttributeUtil.setMaxDurability(meta, durability);
+        AttributeUtil.setLives(meta, Config.MaxItemLives);
         AttributeUtil.setMaxEnchantability(meta, stats.ENCHANTABILITY);
 
         if(texture.material.getMaxStackSize() > 1)

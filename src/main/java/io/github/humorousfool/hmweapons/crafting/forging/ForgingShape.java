@@ -32,15 +32,13 @@ public class ForgingShape
     public final List<String> notes;
 
     public final boolean axePower;
-    public final boolean area;
+    public final List<Integer> specialEffects;
     public final boolean ranged;
 
     public final float attackDamageMul;
     public final float attackPowerMul;
 
     public final float projectileDamageMul;
-
-    public final float durabilityMul;
 
     public ForgingShape(MemorySection data)
     {
@@ -58,13 +56,14 @@ public class ForgingShape
         this.notes = data.getStringList("Notes");
 
         this.axePower = data.getBoolean("AxePower", false);
-        this.area = data.getBoolean("Area", false);
+
+        this.specialEffects = data.getIntegerList("SpecialEffects");
+
         this.ranged = data.getBoolean("Ranged", false);
 
         this.attackDamageMul = (float) data.getDouble("Multipliers.ATTACK_DAMAGE", 0D);
         this.attackPowerMul = (float) data.getDouble("Multipliers.ATTACK_POWER", 0D);
         this.projectileDamageMul = (float) data.getDouble("Multipliers.PROJECTILE_DAMAGE", 0D);
-        this.durabilityMul = (float) data.getDouble("Multipliers.DURABILITY", 0D);
     }
 
     public ItemStack getItem()
@@ -76,9 +75,10 @@ public class ForgingShape
             meta.setCustomModelData(customModelData);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_POTION_EFFECTS);
         meta.getPersistentDataContainer().set(ItemUtil.shapeKey, PersistentDataType.STRING, id);
-        AttributeUtil.setDurability(meta, Config.MaxShapeUses);
+        AttributeUtil.setUses(meta, Config.MaxShapeUses);
 
         List<String> lore = new ArrayList<>();
+        lore.add(ChatColor.GRAY + "Materials Required: " + materialsRequired);
         if(attackDamageMul != 0D)
         {
             if(!ranged)
@@ -91,8 +91,6 @@ public class ForgingShape
             lore.add(ChatColor.GRAY + "Attack Power: " + ItemUtil.formatDecimal(attackPowerMul) + "x");
         if(projectileDamageMul != 0D)
             lore.add(ChatColor.GRAY + "Projectile Damage: " + ItemUtil.formatDecimal(projectileDamageMul) + "x");
-        if(durabilityMul != 0D)
-            lore.add(ChatColor.GRAY + "Durability: " + ItemUtil.formatDecimal(durabilityMul) + "x");
         for(String note : notes)
         {
             lore.add(ChatColor.GRAY + note);

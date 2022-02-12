@@ -5,6 +5,8 @@ import io.github.humorousfool.hmcombat.api.StatUtil;
 import io.github.humorousfool.hmweapons.HMWeapons;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
@@ -13,11 +15,12 @@ public class AttributeUtil
 {
     public static final NamespacedKey damageReductionKey = new NamespacedKey(HMWeapons.getInstance(), "damageReduction");
     public static final NamespacedKey armourWeightKey = new NamespacedKey(HMWeapons.getInstance(), "armourWeight");
-    public static final NamespacedKey durabilityKey = new NamespacedKey(HMWeapons.getInstance(), "durability");
-    public static final NamespacedKey maxDurabilityKey = new NamespacedKey(HMWeapons.getInstance(), "maxDurability");
+    public static final NamespacedKey usesKey = new NamespacedKey(HMWeapons.getInstance(), "uses");
+    public static final NamespacedKey livesKey = new NamespacedKey(HMWeapons.getInstance(), "lives");
     public static final NamespacedKey maxEnchantabilityKey = new NamespacedKey(HMWeapons.getInstance(), "maxEnchantability");
     public static final NamespacedKey projectileDamageKey = new NamespacedKey(HMWeapons.getInstance(), "projectileDamage");
     public static final NamespacedKey projectileVelocityKey = new NamespacedKey(HMWeapons.getInstance(), "projectileVelocity");
+    public static final NamespacedKey specialKey = new NamespacedKey(HMWeapons.getInstance(), "special");
 
     public static void setPower(ItemMeta meta, int amount)
     {
@@ -60,34 +63,34 @@ public class AttributeUtil
         return meta.getPersistentDataContainer().get(armourWeightKey, PersistentDataType.DOUBLE);
     }
 
-    public static void setDurability(ItemMeta meta, int amount)
+    public static void setUses(ItemMeta meta, int amount)
     {
-        meta.getPersistentDataContainer().set(durabilityKey, PersistentDataType.INTEGER, amount);
+        meta.getPersistentDataContainer().set(usesKey, PersistentDataType.INTEGER, amount);
     }
-    public static int getDurability(ItemStack item)
+    public static int getUses(ItemStack item)
     {
         if(item == null || item.getType() == Material.AIR || !item.hasItemMeta()) return -1;
-        return getDurability(item.getItemMeta());
+        return getUses(item.getItemMeta());
     }
-    public static int getDurability(ItemMeta meta)
+    public static int getUses(ItemMeta meta)
     {
-        if(!meta.getPersistentDataContainer().has(durabilityKey, PersistentDataType.INTEGER)) return -1;
-        return meta.getPersistentDataContainer().get(durabilityKey, PersistentDataType.INTEGER);
+        if(!meta.getPersistentDataContainer().has(usesKey, PersistentDataType.INTEGER)) return -1;
+        return meta.getPersistentDataContainer().get(usesKey, PersistentDataType.INTEGER);
     }
 
-    public static void setMaxDurability(ItemMeta meta, int amount)
+    public static void setLives(ItemMeta meta, int amount)
     {
-        meta.getPersistentDataContainer().set(maxDurabilityKey, PersistentDataType.INTEGER, amount);
+        meta.getPersistentDataContainer().set(livesKey, PersistentDataType.INTEGER, amount);
     }
-    public static int getMaxDurability(ItemStack item)
+    public static int getLives(ItemStack item)
     {
         if(item == null || item.getType() == Material.AIR || !item.hasItemMeta()) return -1;
-        return getDurability(item.getItemMeta());
+        return getLives(item.getItemMeta());
     }
-    public static int getMaxDurability(ItemMeta meta)
+    public static int getLives(ItemMeta meta)
     {
-        if(!meta.getPersistentDataContainer().has(maxDurabilityKey, PersistentDataType.INTEGER)) return -1;
-        return meta.getPersistentDataContainer().get(maxDurabilityKey, PersistentDataType.INTEGER);
+        if(!meta.getPersistentDataContainer().has(livesKey, PersistentDataType.INTEGER)) return -1;
+        return meta.getPersistentDataContainer().get(livesKey, PersistentDataType.INTEGER);
     }
 
     public static void setMaxEnchantability(ItemMeta meta, int amount)
@@ -128,5 +131,15 @@ public class AttributeUtil
     {
         if(item == null || item.getType() == Material.AIR || !item.hasItemMeta()) return 0;
         return getProjectileVelocity(item.getItemMeta());
+    }
+
+    public static void setSpecialEffects(ItemMeta meta, int[] effects)
+    {
+        meta.getPersistentDataContainer().set(specialKey, PersistentDataType.INTEGER_ARRAY, effects);
+    }
+    public static int[] getSpecialEffects(ItemMeta meta)
+    {
+        if(!meta.getPersistentDataContainer().has(specialKey, PersistentDataType.INTEGER_ARRAY)) return new int[0];
+        return meta.getPersistentDataContainer().get(specialKey, PersistentDataType.INTEGER_ARRAY);
     }
 }

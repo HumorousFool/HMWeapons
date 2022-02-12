@@ -1,3 +1,6 @@
 Locale: en
 
 MaxShapeUses: 10
+MaxItemLives: 10
+
+OverrideKeepInventory: true
