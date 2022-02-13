@@ -325,10 +325,7 @@ public class Forge implements Listener
 
         lore.add("");
         lore.add(ChatColor.BLUE + ItemUtil.formatDecimalPlus(damageReduction) + "% Damage Reduction");
-        if(armourWeight >= 0)
-            lore.add(ChatColor.BLUE + ItemUtil.formatDecimalPlus(armourWeight) + " Armour Weight");
-        else
-            lore.add(ChatColor.BLUE + ItemUtil.formatDecimal(armourWeight) + " Armour Weight");
+        lore.add(ChatColor.BLUE + ItemUtil.formatDecimalPlus(armourWeight) + " Armour Weight");
         lore.add("");
         lore.add(ChatColor.GRAY + "(0/" + enchantability + ") Enchantability");
         lore.add(ChatColor.GRAY + "(" + Config.MaxItemLives + "/" + Config.MaxItemLives + ") Lives");

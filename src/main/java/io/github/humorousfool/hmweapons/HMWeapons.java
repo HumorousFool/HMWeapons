@@ -1,6 +1,7 @@
 package io.github.humorousfool.hmweapons;
 
 import io.github.humorousfool.hmweapons.commands.CraftersCommand;
+import io.github.humorousfool.hmweapons.commands.ItemsCommand;
 import io.github.humorousfool.hmweapons.commands.MaterialsCommand;
 import io.github.humorousfool.hmweapons.commands.ShapesCommand;
 import io.github.humorousfool.hmweapons.config.Config;
@@ -9,6 +10,7 @@ import io.github.humorousfool.hmweapons.crafting.forging.Forge;
 import io.github.humorousfool.hmweapons.crafting.infusion.Infuser;
 import io.github.humorousfool.hmweapons.crafting.infusion.recipes.RecipeManager;
 import io.github.humorousfool.hmweapons.crafting.forging.ShapeManager;
+import io.github.humorousfool.hmweapons.items.ItemRegistry;
 import io.github.humorousfool.hmweapons.listener.PlayerListener;
 import io.github.humorousfool.hmweapons.listener.BlockListener;
 import io.github.humorousfool.hmweapons.localisation.I18nSupport;
@@ -39,29 +41,41 @@ public final class HMWeapons extends JavaPlugin
         }
         I18nSupport.init();
 
-        File materialFile = new File(getDataFolder(), "materials.yml");
-        if (!materialFile.exists()) {
+        File file = new File(getDataFolder(), "materials.yml");
+        if (!file.exists()) {
             this.saveResource("materials.yml", false);
         }
-        MaterialManager.loadMaterials(YamlConfiguration.loadConfiguration(materialFile));
+        MaterialManager.loadMaterials(YamlConfiguration.loadConfiguration(file));
 
-        File recipeFile = new File(getDataFolder(), "recipes.yml");
-        if (!recipeFile.exists()) {
+        file = new File(getDataFolder(), "recipes.yml");
+        if (!file.exists()) {
             this.saveResource("recipes.yml", false);
         }
-        RecipeManager.loadRecipes(YamlConfiguration.loadConfiguration(recipeFile));
+        RecipeManager.loadRecipes(YamlConfiguration.loadConfiguration(file));
 
-        File colourFile = new File(getDataFolder(), "colours.yml");
-        if (!colourFile.exists()) {
+        file = new File(getDataFolder(), "colours.yml");
+        if (!file.exists()) {
             this.saveResource("colours.yml", false);
         }
-        ColourManager.loadColours(YamlConfiguration.loadConfiguration(colourFile));
+        ColourManager.loadColours(YamlConfiguration.loadConfiguration(file));
 
-        File shapeFile = new File(getDataFolder(), "shapes.yml");
-        if(!shapeFile.exists()) {
+        file = new File(getDataFolder(), "shapes.yml");
+        if(!file.exists()) {
             this.saveResource("shapes.yml", false);
         }
-        ShapeManager.loadShapes(YamlConfiguration.loadConfiguration(shapeFile));
+        ShapeManager.loadShapes(YamlConfiguration.loadConfiguration(file));
+
+        file = new File(getDataFolder(), "shapes.yml");
+        if(!file.exists()) {
+            this.saveResource("shapes.yml", false);
+        }
+        ShapeManager.loadShapes(YamlConfiguration.loadConfiguration(file));
+
+        file = new File(getDataFolder(), "items.yml");
+        if(!file.exists()) {
+            this.saveResource("items.yml", false);
+        }
+        ItemRegistry.loadItems(YamlConfiguration.loadConfiguration(file));
 
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
@@ -71,6 +85,7 @@ public final class HMWeapons extends JavaPlugin
         getCommand("materials").setExecutor(new MaterialsCommand());
         getCommand("crafters").setExecutor(new CraftersCommand());
         getCommand("shapes").setExecutor(new ShapesCommand());
+        getCommand("items").setExecutor(new ItemsCommand());
     }
 
     @Override

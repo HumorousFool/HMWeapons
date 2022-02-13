@@ -1,0 +1,97 @@
+example_item: # Item ID
+  Name: "&4&lExample Item"
+  Type: Example # Item Type (Optional)
+  Material: GOLD_INGOT
+  CustomModelData: 0 # 0 = no custom model data
+  HasLives: true # false by default
+  Stackable: false # false by default
+  AxePower: false # axe's default power will be used and displayed, false by default
+  Stats: # All Optional
+    ATTACK_DAMAGE: 15
+    ATTACK_POWER: 4
+    PROJECTILE_DAMAGE: 20
+    PROJECTILE_VELOCITY: -70
+    DAMAGE_REDUCTION: 15 # applies when in offhand only
+    ARMOUR_WEIGHT: -20 # applies when in offhand only
+    ENCHANTABILITY: 100
+crowbar:
+  Name: "&5Crowbar"
+  Material: NETHER_BRICK
+  CustomModelData: 100
+  HasLives: true
+  Stats:
+    ATTACK_DAMAGE: 6
+    ATTACK_POWER: 4
+wooden_shield:
+  Name: "&fWooden Shield"
+  Type: Shield
+  Material: SHIELD
+  CustomModelData: 0
+  HasLives: true
+heavy_shield:
+  Name: "&eHeavy Shield"
+  Type: Shield
+  Material: Shield
+  CustomModelData: 0
+  HasLives: true
+  Stats:
+    DAMAGE_REDUCTION: 10
+    ARMOUR_WEIGHT: 5
+rusty_pauldron:
+  Name: "&fRusty Pauldron"
+  Type: Defensive Piece
+  Material: NETHER_BRICK
+  CustomModelData: 1
+  HasLives: true
+  Stats:
+    DAMAGE_REDUCTION: 5
+swift_gauntlet:
+  Name: "&eSwift Gauntlet"
+  Type: Defensive Piece
+  Material: NETHER_BRICK
+  CustomModelData: 2
+  HasLives: true
+  Stats:
+    DAMAGE_REDUCTION: 5
+    ARMOUR_WEIGHT: -5
+solid_pauldron:
+  Name: "&fSolid Pauldron"
+  Type: Defensive Piece
+  Material: NETHER_BRICK
+  CustomModelData: 3
+  HasLives: true
+  Stats:
+    DAMAGE_REDUCTION: 10
+enchanter_pauldron:
+  Name: "&eEnchanter's Pauldron"
+  Type: Defensive Piece
+  Material: NETHER_BRICK
+  CustomModelData: 4
+  HasLives: true
+  Stats:
+    DAMAGE_REDUCTION: 10
+    ENCHANTABILITY: 50
+theif_pauldron:
+  Name: "&fTheif's Glove"
+  Type: Defensive Piece
+  Material: NETHER_BRICK
+  CustomModelData: 5
+  HasLives: false
+  Stats:
+    DAMAGE_REDUCTION: 15
+warding_pauldron:
+  Name: "&eWarding Pauldron"
+  Type: Defensive Piece
+  Material: NETHER_BRICK
+  CustomModelData: 6
+  HasLives: true
+  Stats:
+    DAMAGE_REDUCTION: 15
+legendary_pauldron:
+  Name: "&5Legendary Pauldron"
+  Type: Defensive Piece
+  Material: NETHER_BRICK
+  CustomModelData: 7
+  HasLives: true
+  Stats:
+    DAMAGE_REDUCTION: 25

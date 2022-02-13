@@ -8,10 +8,7 @@ import io.github.humorousfool.hmweapons.util.ItemUtil;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
-import org.bukkit.entity.Arrow;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Player;
+import org.bukkit.entity.*;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -95,13 +92,18 @@ public class PlayerListener implements Listener
     {
         if(event.isCancelled() || event.getDamage() <= 0D) return;
 
-        if(event.getEntity() instanceof Player player && damageReductions.containsKey(player))
+        if(event.getEntity().getType() == EntityType.PLAYER)
         {
-            event.setDamage(event.getDamage() * damageReductions.get(player));
+            Player player = (Player) event.getEntity();
+            if(damageReductions.containsKey(player))
+                event.setDamage(event.getDamage() * damageReductions.get(player));
         }
 
-        if(event.getDamager() instanceof Player player && event.getDamage() > 0.9 * player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue())
+        if(event.getDamager().getType() == EntityType.PLAYER)
         {
+            Player player = (Player) event.getDamager();
+            if(event.getDamage() < 0.9 * player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue()) return;
+
             ItemStack item = player.getInventory().getItemInMainHand();
             if(item.getType() == Material.AIR || !item.hasItemMeta()) return;
             ItemMeta meta = item.getItemMeta();
@@ -149,25 +151,25 @@ public class PlayerListener implements Listener
         if(item.getType() == Material.AIR || !item.hasItemMeta()) return;
 
         ItemMeta meta = item.getItemMeta();
-        if(slot != EquipmentSlot.HAND || player.getInventory().getItemInOffHand().getType() == Material.SHIELD)
+        boolean cooldown = false;
+        int[] special = AttributeUtil.getSpecialEffects(meta);
+        for(int i : special)
         {
-            int[] special = AttributeUtil.getSpecialEffects(meta);
-            for(int i : special)
+            if(i == 1 && (slot != EquipmentSlot.HAND || player.getInventory().getItemInOffHand().getType() == Material.SHIELD))
             {
-                if(i == 1)
-                {
-                    event.setCancelled(true);
-                    player.sendMessage(ChatColor.RED + I18nSupport.getInternationalisedString("Item - Double Handed"));
-                    player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 1.f, 0.5f);
-                    return;
-                }
+                event.setCancelled(true);
+                player.sendMessage(ChatColor.RED + I18nSupport.getInternationalisedString("Item - Double Handed"));
+                player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_PLACE, SoundCategory.PLAYERS, 1.f, 0.5f);
+                return;
+            }
 
-                if(i == 2)
-                {
-                    player.setCooldown(Material.BOW, 20);
-                }
+            if(i == 2)
+            {
+                cooldown = true;
             }
         }
+        if(cooldown)
+            player.setCooldown(Material.BOW, 20);
 
         double damage = AttributeUtil.getProjectileDamage(meta);
         double velocity = AttributeUtil.getProjectileVelocity(meta);
@@ -256,7 +258,9 @@ public class PlayerListener implements Listener
         double leggingsWeight = AttributeUtil.getArmourWeight(player.getInventory().getLeggings());
         double bootsWeight = AttributeUtil.getArmourWeight(player.getInventory().getBoots());
 
-        double totalWeight = -(helmetWeight + chestplateWeight + leggingsWeight + bootsWeight) / 100;
+        double offhandWeight = ItemUtil.getArmourSlot(player.getInventory().getItem(offhandSlot)) == null ? AttributeUtil.getArmourWeight(player.getInventory().getItem(offhandSlot)) : 0;
+
+        double totalWeight = -(helmetWeight + chestplateWeight + leggingsWeight + bootsWeight + offhandWeight) / 100;
 
         AttributeModifier modifier = new AttributeModifier(speedID, "generic.movement_speed", totalWeight, AttributeModifier.Operation.ADD_SCALAR);
 

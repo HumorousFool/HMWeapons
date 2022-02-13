@@ -14,6 +14,7 @@ public class ShapeManager
     public static void loadShapes(YamlConfiguration file)
     {
         shapes.clear();
+        armourShapes.clear();
 
         for(String name : file.getValues(false).keySet())
         {
