@@ -31,9 +31,15 @@ public class ItemsCommand implements CommandExecutor
 
         Inventory inv = Bukkit.createInventory(null, 54, ChatColor.DARK_RED + "Crafters");
 
-        for(int i = 0; i < Math.min(ItemRegistry.items.size(), 53); i++)
+        for(int i = 0; i < Math.min(ItemRegistry.items.size(), 54); i++)
         {
             CustomItem item = ItemRegistry.items.values().stream().toList().get(i);
+            inv.addItem(item.getItem());
+        }
+
+        for(int i = 0; i < Math.min(ItemRegistry.presetItems.size(), 54 - ItemRegistry.items.size()); i++)
+        {
+            CustomItem item = ItemRegistry.presetItems.values().stream().toList().get(i);
             inv.addItem(item.getItem());
         }
 

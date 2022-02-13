@@ -6,6 +6,7 @@ example_item: # Item ID
   HasLives: true # false by default
   Stackable: false # false by default
   AxePower: false # axe's default power will be used and displayed, false by default
+  Notes: ["", "&7This is an example note!"]
   Stats: # All Optional
     ATTACK_DAMAGE: 15
     ATTACK_POWER: 4

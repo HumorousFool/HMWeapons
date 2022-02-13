@@ -33,13 +33,13 @@ public class ShapesCommand implements CommandExecutor
 
         Inventory inv = Bukkit.createInventory(null, 54, ChatColor.DARK_RED + "Shapes");
 
-        for(int i = 0; i < Math.min(ShapeManager.shapes.size(), 53); i++)
+        for(int i = 0; i < Math.min(ShapeManager.shapes.size(), 54); i++)
         {
             ForgingShape material = ShapeManager.shapes.values().stream().toList().get(i);
             inv.addItem(material.getItem());
         }
 
-        for(int i = 0; i < Math.min(ShapeManager.armourShapes.size(), 53); i++)
+        for(int i = 0; i < Math.min(ShapeManager.armourShapes.size(), 54 - ShapeManager.shapes.size()); i++)
         {
             ArmourShape material = ShapeManager.armourShapes.values().stream().toList().get(i);
             inv.addItem(material.getItem());

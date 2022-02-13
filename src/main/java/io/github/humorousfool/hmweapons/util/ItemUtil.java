@@ -33,6 +33,10 @@ public class ItemUtil
             return null;
         return item.getItemMeta().getPersistentDataContainer().get(itemKey, PersistentDataType.STRING);
     }
+    public static void setItem(ItemMeta meta, String id)
+    {
+        meta.getPersistentDataContainer().set(itemKey, PersistentDataType.STRING, id);
+    }
 
     public static ItemStack makeNonStackable(ItemStack item)
     {

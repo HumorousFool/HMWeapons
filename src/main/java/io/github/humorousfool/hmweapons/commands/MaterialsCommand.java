@@ -32,7 +32,7 @@ public class MaterialsCommand implements CommandExecutor
 
         Inventory inv = Bukkit.createInventory(null, 54, ChatColor.DARK_RED + "Materials");
 
-        for(int i = 0; i < Math.min(MaterialManager.materials.size(), 53); i++)
+        for(int i = 0; i < Math.min(MaterialManager.materials.size(), 54); i++)
         {
             CraftingMaterial material = MaterialManager.materials.values().stream().toList().get(i);
             inv.addItem(material.getItem());

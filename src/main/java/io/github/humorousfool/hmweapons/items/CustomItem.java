@@ -32,6 +32,8 @@ public class CustomItem
 
     public final MaterialStats stats;
 
+    public final List<String> notes;
+
     public CustomItem(MemorySection data)
     {
         this.id = data.getName();
@@ -50,6 +52,32 @@ public class CustomItem
             this.stats = new MaterialStats((MemorySection) data.get("Stats"));
         else
             this.stats = null;
+
+        this.notes = data.getStringList("Notes");
+
+        for(int i = 0; i < notes.size(); i++)
+        {
+            notes.set(i, notes.get(i).replace("&", "§"));
+        }
+    }
+
+    public CustomItem(String id, String name, String type, Material material, int customModelData, boolean hasLives, boolean isStackable, boolean axePower, MaterialStats stats)
+    {
+        this.id = id;
+
+        this.name = name;
+        this.type = type;
+
+        this.material = material;
+        this.customModelData = customModelData;
+
+        this.hasLives = hasLives;
+        this.isStackable = isStackable;
+        this.axePower = axePower;
+
+        this.stats = stats;
+
+        this.notes = new ArrayList<>();
     }
 
     public ItemStack getItem()
@@ -58,6 +86,12 @@ public class CustomItem
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(name);
         meta.setCustomModelData(customModelData);
+        ItemUtil.setItem(meta, id);
+
+        if(item.getMaxStackSize() > 1 && !isStackable)
+        {
+            ItemUtil.makeNonStackable(meta);
+        }
 
         meta.setUnbreakable(true);
         meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_UNBREAKABLE);
@@ -103,15 +137,18 @@ public class CustomItem
                 lore.add(ChatColor.BLUE + ItemUtil.formatDecimalPlus(stats.ARMOUR_WEIGHT) + " Armour Weight");
                 AttributeUtil.setArmourWeight(meta, stats.ARMOUR_WEIGHT);
             }
-
-            lore.add("");
-
-            if(stats.ENCHANTABILITY != 0)
-            {
-                lore.add(ChatColor.GRAY + "(0/" + stats.ENCHANTABILITY + ") Enchantability");
-                AttributeUtil.setMaxEnchantability(meta, stats.ENCHANTABILITY);
-            }
         }
+
+        lore.addAll(notes);
+
+        if(stats != null && stats.ENCHANTABILITY != 0)
+        {
+            lore.add("");
+            lore.add(ChatColor.GRAY + "(0/" + stats.ENCHANTABILITY + ") Enchantability");
+            AttributeUtil.setMaxEnchantability(meta, stats.ENCHANTABILITY);
+        }
+        else if(hasLives)
+            lore.add("");
 
         if(hasLives)
         {
@@ -123,5 +160,10 @@ public class CustomItem
         item.setItemMeta(meta);
 
         return item;
+    }
+
+    public boolean isItem(ItemStack item)
+    {
+        return id.equals(ItemUtil.getItem(item));
     }
 }
