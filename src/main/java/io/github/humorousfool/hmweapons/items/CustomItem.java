@@ -1,6 +1,9 @@
 package io.github.humorousfool.hmweapons.items;
 
+import io.github.humorousfool.hmcombat.api.AttackSpeed;
 import io.github.humorousfool.hmweapons.config.Config;
+import io.github.humorousfool.hmweapons.items.preset.PresetEffect;
+import io.github.humorousfool.hmweapons.items.preset.PresetEffects;
 import io.github.humorousfool.hmweapons.util.AttributeUtil;
 import io.github.humorousfool.hmweapons.util.ItemUtil;
 import io.github.humorousfool.hmweapons.util.MaterialStats;
@@ -14,7 +17,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class CustomItem
 {
@@ -31,8 +36,11 @@ public class CustomItem
     public final boolean axePower;
 
     public final MaterialStats stats;
+    public final AttackSpeed attackSpeed;
 
     public final List<String> notes;
+
+    public final ArrayList<PresetEffect> effects = new ArrayList<>();
 
     public CustomItem(MemorySection data)
     {
@@ -53,31 +61,37 @@ public class CustomItem
         else
             this.stats = null;
 
-        this.notes = data.getStringList("Notes");
+        if(data.contains("AttackSpeed"))
+            this.attackSpeed = AttackSpeed.fromInteger(data.getInt("AttackSpeed"));
+        else
+            this.attackSpeed = null;
 
-        for(int i = 0; i < notes.size(); i++)
+        if(data.contains("Notes"))
         {
-            notes.set(i, notes.get(i).replace("&", "§"));
+            this.notes = data.getStringList("Notes");
+            for(int i = 0; i < notes.size(); i++)
+            {
+                notes.set(i, notes.get(i).replace("&", "§"));
+            }
         }
-    }
+        else
+            this.notes = null;
 
-    public CustomItem(String id, String name, String type, Material material, int customModelData, boolean hasLives, boolean isStackable, boolean axePower, MaterialStats stats)
-    {
-        this.id = id;
-
-        this.name = name;
-        this.type = type;
-
-        this.material = material;
-        this.customModelData = customModelData;
-
-        this.hasLives = hasLives;
-        this.isStackable = isStackable;
-        this.axePower = axePower;
-
-        this.stats = stats;
-
-        this.notes = new ArrayList<>();
+        if(data.contains("PresetEffects"))
+        {
+            MemorySection effectSection = (MemorySection) data.get("PresetEffects");
+            for(String key : effectSection.getKeys(false))
+            {
+                try
+                {
+                    Class<? extends PresetEffect> effectClass = PresetEffects.valueOf(key.replace("+", "").toUpperCase(Locale.ROOT)).clazz;
+                    effects.add(effectClass.getDeclaredConstructor(List.class).newInstance(effectSection.getStringList(key)));
+                } catch (Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public ItemStack getItem()
@@ -99,10 +113,9 @@ public class CustomItem
         List<String> lore = new ArrayList<>();
         if(type != null)
             lore.add(ChatColor.GRAY + type);
-        if(hasLives || stats != null)
-            lore.add("");
         if(stats != null)
         {
+            lore.add("");
             if(stats.ATTACK_DAMAGE != 0)
             {
                 lore.add(ChatColor.BLUE + ItemUtil.formatDecimalPlus(stats.ATTACK_DAMAGE) + " Attack Damage");
@@ -139,7 +152,20 @@ public class CustomItem
             }
         }
 
-        lore.addAll(notes);
+        if(attackSpeed != null)
+        {
+            lore.add(ChatColor.BLUE + attackSpeed.title + " Attack Speed");
+
+            if(attackSpeed != AttackSpeed.FAST)
+                AttributeUtil.setSpeed(meta, attackSpeed);
+        }
+
+        if(notes != null)
+        {
+            lore.add("");
+            lore.addAll(notes);
+        }
+
 
         if(stats != null && stats.ENCHANTABILITY != 0)
         {

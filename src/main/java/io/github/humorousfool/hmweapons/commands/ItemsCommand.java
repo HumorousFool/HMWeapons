@@ -37,12 +37,6 @@ public class ItemsCommand implements CommandExecutor
             inv.addItem(item.getItem());
         }
 
-        for(int i = 0; i < Math.min(ItemRegistry.presetItems.size(), 54 - ItemRegistry.items.size()); i++)
-        {
-            CustomItem item = ItemRegistry.presetItems.values().stream().toList().get(i);
-            inv.addItem(item.getItem());
-        }
-
         ((Player) sender).openInventory(inv);
 
         return true;

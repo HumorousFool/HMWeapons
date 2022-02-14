@@ -2,10 +2,11 @@ package io.github.humorousfool.hmweapons.listener;
 
 import io.github.humorousfool.hmweapons.items.CustomItem;
 import io.github.humorousfool.hmweapons.items.ItemRegistry;
-import io.github.humorousfool.hmweapons.items.PresetItem;
+import io.github.humorousfool.hmweapons.items.preset.PresetEffect;
 import io.github.humorousfool.hmweapons.util.ItemUtil;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
@@ -26,11 +27,16 @@ public class ItemListener implements Listener
             else return;
         }
 
-        for(PresetItem item : ItemRegistry.presetItems.values())
+        for(CustomItem item : ItemRegistry.items.values())
         {
             if(item.id.equals(id))
             {
-                event.setCancelled(item.onUse(event, slot));
+                for(PresetEffect effect : item.effects)
+                {
+                    if(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR)
+                        event.setCancelled(effect.onUse(event, slot));
+                }
+
                 return;
             }
         }

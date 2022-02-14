@@ -6,7 +6,15 @@ example_item: # Item ID
   HasLives: true # false by default
   Stackable: false # false by default
   AxePower: false # axe's default power will be used and displayed, false by default
-  Notes: ["", "&7This is an example note!"]
+  AttackSpeed: 1
+  Notes: ["&7This is a note!"] # Added to the lore (Optional)
+  PresetEffects: # All Optional
+    CONSUMABLE: []
+    EFFECT_LOCAL: [JUMP, 600, 1, false] # String effectType, int duration, int amplifier, boolean particles
+    ENTITY_TRAIL: [0, 1, 0, 1, 25, 5, 1, LIGHTNING] # double startX, double startY, double startZ, double Velocity, int lifeTime, int waitTime, long rate, String entityType
+    PROJECTILE_LAUNCH: [1, FIREBALL, 1.5, 2, 0.5] # double velocity, String entityType, float explosiveYield, int count, double spread
+    SOUND_WORLD: [BLOCK_ANVIL_PLACE, PLAYERS, 2, 0.5] # String sound, String soundCategory, float volume, float pitch
+    SPAWN_RADIUS: [0, 10, LIGHTNING] # double minRadius, double maxRadius, String entityType
   Stats: # All Optional
     ATTACK_DAMAGE: 15
     ATTACK_POWER: 4
@@ -20,6 +28,7 @@ crowbar:
   Material: NETHER_BRICK
   CustomModelData: 100
   HasLives: true
+  AttackSpeed: 0
   Stats:
     ATTACK_DAMAGE: 6
     ATTACK_POWER: 4
@@ -96,3 +105,62 @@ legendary_pauldron:
   HasLives: true
   Stats:
     DAMAGE_REDUCTION: 25
+lightning_scroll:
+  Name: "&bScroll of Lightning"
+  Type: Scroll
+  Material: NETHER_BRICK
+  CustomModelData: 8
+  Notes: ["&7Strikes lightning at enemies around it"]
+  PresetEffects:
+    CONSUMABLE: []
+    SPAWN_RADIUS: [0, 10, LIGHTNING]
+fireball_scroll:
+  Name: "&bScroll of Fireball"
+  Type: Scroll
+  Material: NETHER_BRICK
+  CustomModelData: 9
+  Notes: ["&7Launches a fireball"]
+  PresetEffects:
+    CONSUMABLE: []
+    PROJECTILE_LAUNCH: [1, FIREBALL, 1.5, 1, 0]
+    SOUND_WORLD: [ENTITY_BLAZE_SHOOT, PLAYERS, 1, 1]
+electricity_scroll:
+  Name: "&bScroll of Electricity"
+  Type: Scroll
+  Material: NETHER_BRICK
+  CustomModelData: 10
+  Notes: ["&7Shoots a trail of lightning"]
+  PresetEffects:
+    CONSUMABLE: []
+    ENTITY_TRAIL: [0, 1, 0, 1, 25, 5, 1, LIGHTNING]
+arrow_trail_scroll:
+  Name: "&bScroll of Arrows Trail"
+  Type: Scroll
+  Material: NETHER_BRICK
+  CustomModelData: 11
+  Notes: ["&7Shoots a trail of arrows"]
+  PresetEffects:
+    CONSUMABLE: []
+    ENTITY_TRAIL: [0, 4, 0, 1, 30, 1, 1, ARROW]
+arrow_scroll:
+  Name: "&bScroll of Arrows"
+  Type: Scroll
+  Material: NETHER_BRICK
+  CustomModelData: 12
+  Notes: ["&7Shoots a volley of arrows"]
+  PresetEffects:
+    CONSUMABLE: []
+    PROJECTILE_LAUNCH: [1, ARROW, 0, 20, 0.7]
+    SOUND_WORLD: [ENTITY_ARROW_SHOOT, PLAYERS, 2, 1]
+yummy_cookie:
+  Name: "&bYummy Cookie"
+  Type: Consumable
+  Material: COOKIE
+  CustomModelData: 0
+  Stackable: true
+  Notes: ["&7It smells really good"]
+  PresetEffects:
+    CONSUMABLE: []
+    EFFECT_LOCAL: [ABSORPTION, 600, 1, true]
+    EFFECT_LOCAL+: [SATURATION, 300, 0, true]
+    SOUND_WORLD: [ENTITY_PLAYER_BURP, PLAYERS, 1, 1]
