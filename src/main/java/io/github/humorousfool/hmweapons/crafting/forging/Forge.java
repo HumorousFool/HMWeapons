@@ -216,7 +216,8 @@ public class Forge implements Listener
             ItemStack current = event.getCurrentItem();
             if(current == null || !current.hasItemMeta()) return;
 
-            if(current.getItemMeta().getPersistentDataContainer().has(ItemUtil.shapeKey, PersistentDataType.STRING))
+            if((event.getView().getTopInventory().getItem(slots[1]) == null || event.getView().getTopInventory().getItem(slots[1]).getType() == Material.AIR)
+                    && current.getItemMeta().getPersistentDataContainer().has(ItemUtil.shapeKey, PersistentDataType.STRING))
             {
                 event.setCancelled(true);
                 event.getView().getTopInventory().setItem(slots[1], event.getCurrentItem());

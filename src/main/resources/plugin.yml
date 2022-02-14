@@ -21,6 +21,9 @@ commands:
   items:
     description: Displays all registered items.
     permission: hmweapons.command.items
+  hmweapons:
+    description: Shows plugin info and allows you to reload systems.
+    permission: hmweapons.command.hmweapons
 
 permissions:
   hmweapons.command.materials:
@@ -34,4 +37,10 @@ permissions:
     default: op
   hmweapons.command.items:
     description: Allows you to use the /items command.
+    default: op
+  hmweapons.command.hmweapons:
+    description: Allows you to use the /hmweapons command.
+    default: op
+  hmweapons.command.hmweapons.reload:
+    description: Allows you tu use the /hmweapons reload command.
     default: op

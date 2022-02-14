@@ -1,9 +1,6 @@
 package io.github.humorousfool.hmweapons;
 
-import io.github.humorousfool.hmweapons.commands.CraftersCommand;
-import io.github.humorousfool.hmweapons.commands.ItemsCommand;
-import io.github.humorousfool.hmweapons.commands.MaterialsCommand;
-import io.github.humorousfool.hmweapons.commands.ShapesCommand;
+import io.github.humorousfool.hmweapons.commands.*;
 import io.github.humorousfool.hmweapons.config.Config;
 import io.github.humorousfool.hmweapons.crafting.ColourManager;
 import io.github.humorousfool.hmweapons.crafting.forging.Forge;
@@ -42,41 +39,10 @@ public final class HMWeapons extends JavaPlugin
         }
         I18nSupport.init();
 
-        File file = new File(getDataFolder(), "materials.yml");
-        if (!file.exists()) {
-            this.saveResource("materials.yml", false);
-        }
-        MaterialManager.loadMaterials(YamlConfiguration.loadConfiguration(file));
-
-        file = new File(getDataFolder(), "recipes.yml");
-        if (!file.exists()) {
-            this.saveResource("recipes.yml", false);
-        }
-        RecipeManager.loadRecipes(YamlConfiguration.loadConfiguration(file));
-
-        file = new File(getDataFolder(), "colours.yml");
-        if (!file.exists()) {
-            this.saveResource("colours.yml", false);
-        }
-        ColourManager.loadColours(YamlConfiguration.loadConfiguration(file));
-
-        file = new File(getDataFolder(), "shapes.yml");
-        if(!file.exists()) {
-            this.saveResource("shapes.yml", false);
-        }
-        ShapeManager.loadShapes(YamlConfiguration.loadConfiguration(file));
-
-        file = new File(getDataFolder(), "shapes.yml");
-        if(!file.exists()) {
-            this.saveResource("shapes.yml", false);
-        }
-        ShapeManager.loadShapes(YamlConfiguration.loadConfiguration(file));
-
-        file = new File(getDataFolder(), "items.yml");
-        if(!file.exists()) {
-            this.saveResource("items.yml", false);
-        }
-        ItemRegistry.loadItems(YamlConfiguration.loadConfiguration(file));
+        reloadMaterialsAndColours();
+        reloadRecipes();
+        reloadShapes();
+        reloadItems();
 
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
@@ -88,12 +54,57 @@ public final class HMWeapons extends JavaPlugin
         getCommand("crafters").setExecutor(new CraftersCommand());
         getCommand("shapes").setExecutor(new ShapesCommand());
         getCommand("items").setExecutor(new ItemsCommand());
+        getCommand("hmweapons").setExecutor(new HMWeaponsCommand());
     }
 
     @Override
     public void onDisable()
     {
         // Plugin shutdown logic
+    }
+
+    public void reloadMaterialsAndColours()
+    {
+        ColourManager.ingotColours.clear();
+        ColourManager.netheriteColours.clear();
+        File file = new File(getDataFolder(), "materials.yml");
+        if (!file.exists()) {
+            this.saveResource("materials.yml", false);
+        }
+        MaterialManager.loadMaterials(YamlConfiguration.loadConfiguration(file));
+
+        file = new File(getDataFolder(), "colours.yml");
+        if (!file.exists()) {
+            this.saveResource("colours.yml", false);
+        }
+        ColourManager.loadColours(YamlConfiguration.loadConfiguration(file));
+    }
+
+    public void reloadRecipes()
+    {
+        File file = new File(getDataFolder(), "recipes.yml");
+        if (!file.exists()) {
+            this.saveResource("recipes.yml", false);
+        }
+        RecipeManager.loadRecipes(YamlConfiguration.loadConfiguration(file));
+    }
+
+    public void reloadShapes()
+    {
+        File file = new File(getDataFolder(), "shapes.yml");
+        if(!file.exists()) {
+            this.saveResource("shapes.yml", false);
+        }
+        ShapeManager.loadShapes(YamlConfiguration.loadConfiguration(file));
+    }
+
+    public void reloadItems()
+    {
+        File file = new File(getDataFolder(), "items.yml");
+        if(!file.exists()) {
+            this.saveResource("items.yml", false);
+        }
+        ItemRegistry.loadItems(YamlConfiguration.loadConfiguration(file));
     }
 
     public static HMWeapons getInstance()
