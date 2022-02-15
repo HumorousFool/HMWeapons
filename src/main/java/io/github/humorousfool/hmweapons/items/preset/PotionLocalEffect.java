@@ -1,6 +1,6 @@
 package io.github.humorousfool.hmweapons.items.preset;
 
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -24,8 +24,8 @@ public class PotionLocalEffect extends PresetEffect
     }
 
     @Override
-    public boolean onInteract(PlayerInteractEvent event, EventContext context)
+    protected boolean run(Player player, EventContext context)
     {
-        return event.getPlayer().addPotionEffect(new PotionEffect(effectType, duration, amplifier, false, particles));
+        return player.addPotionEffect(new PotionEffect(effectType, duration, amplifier, false, particles));
     }
 }

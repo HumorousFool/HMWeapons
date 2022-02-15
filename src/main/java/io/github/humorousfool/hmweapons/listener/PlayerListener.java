@@ -140,9 +140,9 @@ public class PlayerListener implements Listener
         if(event.isCancelled() || !(event.getEntity().getShooter() instanceof Player player)) return;
 
         EquipmentSlot slot;
-        if(isRanged(player.getInventory().getItemInMainHand()))
+        if(ItemUtil.isRanged(player.getInventory().getItemInMainHand()))
             slot = EquipmentSlot.HAND;
-        else if(isRanged(player.getInventory().getItemInOffHand()))
+        else if(ItemUtil.isRanged(player.getInventory().getItemInOffHand()))
             slot = EquipmentSlot.OFF_HAND;
         else return;
 
@@ -222,11 +222,6 @@ public class PlayerListener implements Listener
                 event.getEntity().getInventory().setItem(i, item);
             }
         }
-    }
-
-    private boolean isRanged(ItemStack item)
-    {
-        return AttributeUtil.getProjectileDamage(item) != 0 || AttributeUtil.getProjectileVelocity(item) != 0;
     }
 
     private void updateAttributes(Player player, EquipmentSlot offhandSlot)

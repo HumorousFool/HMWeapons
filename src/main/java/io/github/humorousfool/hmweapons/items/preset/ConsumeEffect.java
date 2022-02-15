@@ -1,6 +1,6 @@
 package io.github.humorousfool.hmweapons.items.preset;
 
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -13,11 +13,12 @@ public class ConsumeEffect extends PresetEffect
     }
 
     @Override
-    public boolean onInteract(PlayerInteractEvent event, EventContext context)
+    protected boolean run(Player player, EventContext context)
     {
-        ItemStack item = event.getPlayer().getInventory().getItem(context.slot);
+        if(context.slot == null) return false;
+        ItemStack item = player.getInventory().getItem(context.slot);
         item.setAmount(item.getAmount() - 1);
-        event.getPlayer().getInventory().setItem(context.slot, item);
+        player.getInventory().setItem(context.slot, item);
         return true;
     }
 }

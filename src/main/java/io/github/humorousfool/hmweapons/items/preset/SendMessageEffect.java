@@ -1,6 +1,6 @@
 package io.github.humorousfool.hmweapons.items.preset;
 
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ public class SendMessageEffect extends PresetEffect
     }
 
     @Override
-    public boolean onInteract(PlayerInteractEvent event, EventContext context)
+    protected boolean run(Player player, EventContext context)
     {
-        event.getPlayer().sendMessage(message);
+        player.sendMessage(message);
         return true;
     }
 }

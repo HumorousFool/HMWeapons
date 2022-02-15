@@ -1,6 +1,6 @@
 package io.github.humorousfool.hmweapons.items.preset;
 
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 import java.util.Random;
@@ -19,7 +19,7 @@ public class RandomEffect extends PresetEffect
     }
 
     @Override
-    public boolean onInteract(PlayerInteractEvent event, EventContext context)
+    protected boolean run(Player player, EventContext context)
     {
         return random.nextDouble() < chance;
     }

@@ -6,7 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.EntityType;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -37,12 +37,12 @@ public class EntityTrailEffect extends PresetEffect
     }
 
     @Override
-    public boolean onInteract(PlayerInteractEvent event, EventContext context)
+    protected boolean run(Player player, EventContext context)
     {
         new BukkitRunnable()
         {
-            Location loc = event.getPlayer().getLocation().add(startX, startY, startZ);
-            final Vector direction = event.getPlayer().getLocation().getDirection().multiply(velocity);
+            Location loc = player.getLocation().add(startX, startY, startZ);
+            final Vector direction = player.getLocation().getDirection().multiply(velocity);
             int currentTime = 0;
 
             @Override
@@ -56,7 +56,7 @@ public class EntityTrailEffect extends PresetEffect
                 {
                     if(!loc.getBlock().isPassable())
                     {
-                        event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 0.5f, 1.5f);
+                        player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 0.5f, 1.5f);
                         Bukkit.getScheduler().cancelTask(getTaskId());
                         return;
                     }
@@ -70,7 +70,7 @@ public class EntityTrailEffect extends PresetEffect
                     return;
                 }
 
-                event.getPlayer().getWorld().spawnEntity(loc, entityType);
+                player.getWorld().spawnEntity(loc, entityType);
 
                 currentTime++;
             }

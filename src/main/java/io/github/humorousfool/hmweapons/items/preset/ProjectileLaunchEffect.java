@@ -1,7 +1,6 @@
 package io.github.humorousfool.hmweapons.items.preset;
 
 import org.bukkit.entity.*;
-import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.util.Vector;
 
 import java.util.List;
@@ -31,13 +30,13 @@ public class ProjectileLaunchEffect extends PresetEffect
     }
 
     @Override
-    public boolean onInteract(PlayerInteractEvent event, EventContext context)
+    protected boolean run(Player player, EventContext context)
     {
         double x = (random.nextDouble() - 0.5) * spread;
         double y = (random.nextDouble() - 0.5) * spread;
         double z = (random.nextDouble() - 0.5) * spread;
 
-        Projectile projectile = event.getPlayer().launchProjectile(entityType);
+        Projectile projectile = player.launchProjectile(entityType);
         projectile.setVelocity(projectile.getVelocity().multiply(velocity).add(new Vector(x, y, z)));
         if(projectile.getType() == EntityType.ARROW)
             ((Arrow) projectile).setPickupStatus(AbstractArrow.PickupStatus.CREATIVE_ONLY);

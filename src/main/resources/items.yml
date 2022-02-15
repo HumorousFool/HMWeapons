@@ -189,7 +189,7 @@ enchanted_quiver:
   CustomModelData: 13
   Notes: ["&7You have a chance of gaining back", "&7your arrow when you shoot it."]
   PresetEffects:
-    EVENT_TYPE: [INTERACT_RIGHT]
+    EVENT_TYPE: [HIT_ARROW_ENTITY]
     HELD_SLOT: [OFF_HAND]
     RANDOM: [50]
-    GIVE_ITEM: [crowbar, 1, true]
+    GIVE_ITEM: [ARROW, 1, false]

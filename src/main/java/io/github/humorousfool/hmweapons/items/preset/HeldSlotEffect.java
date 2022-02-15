@@ -1,6 +1,6 @@
 package io.github.humorousfool.hmweapons.items.preset;
 
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.EquipmentSlot;
 
 import java.util.List;
@@ -17,7 +17,7 @@ public class HeldSlotEffect extends PresetEffect
     }
 
     @Override
-    public boolean onInteract(PlayerInteractEvent event, EventContext context)
+    protected boolean run(Player player, EventContext context)
     {
         return context.slot == slot;
     }

@@ -2,7 +2,7 @@ package io.github.humorousfool.hmweapons.items.preset;
 
 import io.github.humorousfool.hmweapons.items.ItemRegistry;
 import org.bukkit.Material;
-import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
@@ -23,7 +23,7 @@ public class GiveItemEffect extends PresetEffect
     }
 
     @Override
-    public boolean onInteract(PlayerInteractEvent event, EventContext context)
+    protected boolean run(Player player, EventContext context)
     {
         ItemStack item;
         if(custom)
@@ -34,7 +34,7 @@ public class GiveItemEffect extends PresetEffect
         else
             item = new ItemStack(Material.matchMaterial(itemName), count);
 
-        event.getPlayer().getInventory().addItem(item);
+        player.getInventory().addItem(item);
 
         return true;
     }

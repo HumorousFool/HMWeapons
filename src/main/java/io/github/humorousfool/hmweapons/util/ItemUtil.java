@@ -98,6 +98,11 @@ public class ItemUtil
         return tags.isEmpty() ? EnumSet.noneOf(Material.class) : EnumSet.copyOf(tags);
     }
 
+    public static boolean isRanged(ItemStack item)
+    {
+        return item.getType() == Material.BOW || item.getType() == Material.CROSSBOW;
+    }
+
     public static NamespacedKey keyFromString(String string)
     {
         try{

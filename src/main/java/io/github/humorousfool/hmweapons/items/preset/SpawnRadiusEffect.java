@@ -5,6 +5,7 @@ import org.bukkit.SoundCategory;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.EquipmentSlot;
 
@@ -28,18 +29,18 @@ public class SpawnRadiusEffect extends PresetEffect
     }
 
     @Override
-    public boolean onInteract(PlayerInteractEvent event, EventContext context)
+    protected boolean run(Player player, EventContext context)
     {
         boolean used = false;
-        for(Entity e : event.getPlayer().getNearbyEntities(maxRadius, maxRadius, maxRadius))
+        for(Entity e : player.getNearbyEntities(maxRadius, maxRadius, maxRadius))
         {
-            if(!(e instanceof LivingEntity) || e.getLocation().distanceSquared(event.getPlayer().getLocation()) < minRadiusSquared) continue;
+            if(!(e instanceof LivingEntity) || e.getLocation().distanceSquared(player.getLocation()) < minRadiusSquared) continue;
 
             e.getWorld().spawnEntity(e.getLocation(), entityType);
             used = true;
         }
         if(!used)
-            event.getPlayer().playSound(event.getPlayer().getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 0.5f, 1.5f);
+            player.playSound(player.getLocation(), Sound.BLOCK_FIRE_EXTINGUISH, SoundCategory.PLAYERS, 0.5f, 1.5f);
 
         return used;
     }
