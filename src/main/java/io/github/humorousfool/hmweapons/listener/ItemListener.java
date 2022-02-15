@@ -15,26 +15,21 @@ public class ItemListener implements Listener
     @EventHandler
     public void onInteract(PlayerInteractEvent event)
     {
-        String id = ItemUtil.getItem(event.getPlayer().getInventory().getItemInMainHand());
-        EquipmentSlot slot;
-        if(id != null)
-            slot = EquipmentSlot.HAND;
-        else
-        {
-            id = ItemUtil.getItem(event.getPlayer().getInventory().getItemInOffHand());
-            if(id != null)
-                slot = EquipmentSlot.OFF_HAND;
-            else return;
-        }
+        if(event.getHand() == null) return;
+        String id = ItemUtil.getItem(event.getPlayer().getInventory().getItem(event.getHand()));
+        if(id == null) return;
 
         for(CustomItem item : ItemRegistry.items.values())
         {
             if(item.id.equals(id))
             {
-                for(PresetEffect effect : item.effects)
+                PresetEffect.EventContext ctx = new PresetEffect.EventContext(event.getHand(), item.effects, 0);
+                for(int i = 0; i < item.effects.size(); i++)
                 {
-                    if(event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR)
-                        event.setCancelled(effect.onUse(event, slot));
+                    ctx.setEffectIndex(i);
+                    PresetEffect effect = item.effects.get(i);
+                    if(effect.flags.shouldStop(effect.onInteract(event, ctx))) return;
+                    i = ctx.getEffectIndex();
                 }
 
                 return;

@@ -9,12 +9,19 @@ example_item: # Item ID
   AttackSpeed: 1
   Notes: ["&7This is a note!"] # Added to the lore (Optional)
   PresetEffects: # All Optional
-    CONSUMABLE: []
-    EFFECT_LOCAL: [JUMP, 600, 1, false] # String effectType, int duration, int amplifier, boolean particles
+    BLOCK_BREAK!: ["#doors", IRON_BLOCK] # String... blocks (exclamation mark inverts the conditional)
+    LOOP: [4, 1] # int range, int next
+    SEND_MESSAGE: ["&4hello"] # String message
+    CONSUME: []
+    POTION_LOCAL: [JUMP, 600, 1, false] # String effectType, int duration, int amplifier, boolean particles
     ENTITY_TRAIL: [0, 1, 0, 1, 25, 5, 1, LIGHTNING] # double startX, double startY, double startZ, double Velocity, int lifeTime, int waitTime, long rate, String entityType
-    PROJECTILE_LAUNCH: [1, FIREBALL, 1.5, 2, 0.5] # double velocity, String entityType, float explosiveYield, int count, double spread
-    SOUND_WORLD: [BLOCK_ANVIL_PLACE, PLAYERS, 2, 0.5] # String sound, String soundCategory, float volume, float pitch
+    EVENT_TYPE: [INTERACT_RIGHT, INTERACT_LEFT] # String... eventTypes
+    PROJECTILE_LAUNCH: [1, FIREBALL, 1.5, 0.5] # double velocity, String entityType, float explosiveYield, double spread
+    SOUND_WORLD: [BLOCK_ANVIL_PLACE, PLAYERS, 2, 0.5, false] # String sound, String soundCategory, float volume, float pitch, boolean atTarget
     SPAWN_RADIUS: [0, 10, LIGHTNING] # double minRadius, double maxRadius, String entityType
+    HELD_SLOT: [HAND] # String heldSlot
+    RANDOM: [50] # double chance
+    GIVE_ITEM: [REDSTONE_BLOCK, 2, false] # String name, int count, boolean custom
   Stats: # All Optional
     ATTACK_DAMAGE: 15
     ATTACK_POWER: 4
@@ -29,6 +36,10 @@ crowbar:
   CustomModelData: 100
   HasLives: true
   AttackSpeed: 0
+  PresetEffects:
+    EVENT_TYPE: [INTERACT_LEFT]
+    BLOCK_BREAK: ["#wooden_doors"]
+    SOUND_WORLD: [ENTITY_ZOMBIE_BREAK_WOODEN_DOOR, BLOCKS, 0.5, 1, true]
   Stats:
     ATTACK_DAMAGE: 6
     ATTACK_POWER: 4
@@ -110,9 +121,10 @@ lightning_scroll:
   Type: Scroll
   Material: NETHER_BRICK
   CustomModelData: 8
-  Notes: ["&7Strikes lightning at enemies around it"]
+  Notes: ["&7Strikes lightning at", "&7enemies around it"]
   PresetEffects:
-    CONSUMABLE: []
+    EVENT_TYPE: [INTERACT_RIGHT]
+    CONSUME: []
     SPAWN_RADIUS: [0, 10, LIGHTNING]
 fireball_scroll:
   Name: "&bScroll of Fireball"
@@ -121,9 +133,10 @@ fireball_scroll:
   CustomModelData: 9
   Notes: ["&7Launches a fireball"]
   PresetEffects:
-    CONSUMABLE: []
-    PROJECTILE_LAUNCH: [1, FIREBALL, 1.5, 1, 0]
-    SOUND_WORLD: [ENTITY_BLAZE_SHOOT, PLAYERS, 1, 1]
+    EVENT_TYPE: [INTERACT_RIGHT]
+    CONSUME: []
+    PROJECTILE_LAUNCH: [1, FIREBALL, 1.5, 0]
+    SOUND_WORLD: [ENTITY_BLAZE_SHOOT, PLAYERS, 1, 1, false]
 electricity_scroll:
   Name: "&bScroll of Electricity"
   Type: Scroll
@@ -131,7 +144,8 @@ electricity_scroll:
   CustomModelData: 10
   Notes: ["&7Shoots a trail of lightning"]
   PresetEffects:
-    CONSUMABLE: []
+    EVENT_TYPE: [INTERACT_RIGHT]
+    CONSUME: []
     ENTITY_TRAIL: [0, 1, 0, 1, 25, 5, 1, LIGHTNING]
 arrow_trail_scroll:
   Name: "&bScroll of Arrows Trail"
@@ -140,7 +154,8 @@ arrow_trail_scroll:
   CustomModelData: 11
   Notes: ["&7Shoots a trail of arrows"]
   PresetEffects:
-    CONSUMABLE: []
+    EVENT_TYPE: [INTERACT_RIGHT]
+    CONSUME: []
     ENTITY_TRAIL: [0, 4, 0, 1, 30, 1, 1, ARROW]
 arrow_scroll:
   Name: "&bScroll of Arrows"
@@ -149,18 +164,32 @@ arrow_scroll:
   CustomModelData: 12
   Notes: ["&7Shoots a volley of arrows"]
   PresetEffects:
-    CONSUMABLE: []
-    PROJECTILE_LAUNCH: [1, ARROW, 0, 20, 0.7]
-    SOUND_WORLD: [ENTITY_ARROW_SHOOT, PLAYERS, 2, 1]
+    EVENT_TYPE: [INTERACT_RIGHT]
+    CONSUME: []
+    LOOP: [20, 1]
+    PROJECTILE_LAUNCH: [1, ARROW, 0, 0.7]
+    SOUND_WORLD: [ENTITY_ARROW_SHOOT, PLAYERS, 2, 1, false]
 yummy_cookie:
   Name: "&bYummy Cookie"
-  Type: Consumable
+  Type: CONSUME
   Material: COOKIE
   CustomModelData: 0
   Stackable: true
   Notes: ["&7It smells really good"]
   PresetEffects:
-    CONSUMABLE: []
-    EFFECT_LOCAL: [ABSORPTION, 600, 1, true]
-    EFFECT_LOCAL+: [SATURATION, 300, 0, true]
-    SOUND_WORLD: [ENTITY_PLAYER_BURP, PLAYERS, 1, 1]
+    EVENT_TYPE: [INTERACT_RIGHT]
+    CONSUME: []
+    POTION_LOCAL: [ABSORPTION, 600, 1, true]
+    POTION_LOCAL+: [SATURATION, 300, 0, true]
+    SOUND_WORLD: [ENTITY_PLAYER_BURP, PLAYERS, 1, 1, false]
+enchanted_quiver:
+  Name: "&bEnchanted Quiver"
+  Type: Magical Item
+  Material: NETHER_BRICK
+  CustomModelData: 13
+  Notes: ["&7You have a chance of gaining back", "&7your arrow when you shoot it."]
+  PresetEffects:
+    EVENT_TYPE: [INTERACT_RIGHT]
+    HELD_SLOT: [OFF_HAND]
+    RANDOM: [50]
+    GIVE_ITEM: [crowbar, 1, true]

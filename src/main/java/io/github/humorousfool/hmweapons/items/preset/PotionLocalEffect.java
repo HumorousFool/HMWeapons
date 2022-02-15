@@ -1,22 +1,21 @@
 package io.github.humorousfool.hmweapons.items.preset;
 
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.List;
 
-public class EffectLocalEffect extends PresetEffect
+public class PotionLocalEffect extends PresetEffect
 {
     PotionEffectType effectType;
     int duration;
     int amplifier;
     boolean particles;
 
-    public EffectLocalEffect(List<String> args)
+    public PotionLocalEffect(List<String> args, ConditionalFlags flags)
     {
-        super(args, 4);
+        super(args, 4, flags);
 
         effectType = PotionEffectType.getByName(args.get(0));
         duration = Integer.parseInt(args.get(1));
@@ -25,9 +24,8 @@ public class EffectLocalEffect extends PresetEffect
     }
 
     @Override
-    public boolean onUse(PlayerInteractEvent event, EquipmentSlot slot)
+    public boolean onInteract(PlayerInteractEvent event, EventContext context)
     {
-        event.getPlayer().addPotionEffect(new PotionEffect(effectType, duration, amplifier, false, particles));
-        return false;
+        return event.getPlayer().addPotionEffect(new PotionEffect(effectType, duration, amplifier, false, particles));
     }
 }

@@ -2,14 +2,18 @@ package io.github.humorousfool.hmweapons.util;
 
 import io.github.humorousfool.hmweapons.HMWeapons;
 import io.github.humorousfool.hmweapons.crafting.infusion.materials.MaterialManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Tag;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataHolder;
 import org.bukkit.persistence.PersistentDataType;
 
+import java.util.EnumSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class ItemUtil
@@ -80,5 +84,36 @@ public class ItemUtil
         if(typeNameString.endsWith("_BOOTS")) return EquipmentSlot.FEET;
 
         return null;
+    }
+
+    public static EnumSet<Material> getBlocksFromTag(String string)
+    {
+        String nameKey = string.substring(1);
+        NamespacedKey key = keyFromString(nameKey);
+        if(key == null)
+        {
+            throw new IllegalArgumentException("Entry " + string + " is not a valid tag!");
+        }
+        Set<Material> tags = Bukkit.getTag(Tag.REGISTRY_BLOCKS, key, Material.class).getValues();
+        return tags.isEmpty() ? EnumSet.noneOf(Material.class) : EnumSet.copyOf(tags);
+    }
+
+    public static NamespacedKey keyFromString(String string)
+    {
+        try{
+            if(string.contains(":"))
+            {
+                int index = string.indexOf(':');
+                String namespace = string.substring(0,index);
+                String key = string.substring(index+1);
+                // While a string based constructor is not supposed to be used,
+                // their does not exist any other method for doing this in < 1.16
+                return new NamespacedKey(namespace, key);
+            }
+            else
+                return NamespacedKey.minecraft(string);
+        } catch(IllegalArgumentException e){
+            return null;
+        }
     }
 }

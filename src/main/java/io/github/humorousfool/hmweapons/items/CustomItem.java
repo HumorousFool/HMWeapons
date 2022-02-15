@@ -17,7 +17,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -82,10 +81,26 @@ public class CustomItem
             MemorySection effectSection = (MemorySection) data.get("PresetEffects");
             for(String key : effectSection.getKeys(false))
             {
+                String sanitizedKey = key;
                 try
                 {
-                    Class<? extends PresetEffect> effectClass = PresetEffects.valueOf(key.replace("+", "").toUpperCase(Locale.ROOT)).clazz;
-                    effects.add(effectClass.getDeclaredConstructor(List.class).newInstance(effectSection.getStringList(key)));
+                    PresetEffect.ConditionalResponse response;
+                    if(key.endsWith("_"))
+                    {
+                        response = PresetEffect.ConditionalResponse.IGNORE;
+                        sanitizedKey = key.substring(0, key.length() - 1);
+                    }
+                    else if(key.endsWith("-"))
+                    {
+                        response = PresetEffect.ConditionalResponse.BREAK;
+                        sanitizedKey = key.substring(0, key.length() - 1);
+                    }
+                    else
+                        response = PresetEffect.ConditionalResponse.RETURN;
+
+                    PresetEffect.ConditionalFlags flags = new PresetEffect.ConditionalFlags(key.contains("!"), response);
+                    Class<? extends PresetEffect> effectClass = PresetEffects.valueOf(sanitizedKey.replace("+", "").replace("!", "").toUpperCase(Locale.ROOT)).clazz;
+                    effects.add(effectClass.getDeclaredConstructor(List.class, PresetEffect.ConditionalFlags.class).newInstance(effectSection.getStringList(key), flags));
                 } catch (Exception e)
                 {
                     e.printStackTrace();
@@ -186,10 +201,5 @@ public class CustomItem
         item.setItemMeta(meta);
 
         return item;
-    }
-
-    public boolean isItem(ItemStack item)
-    {
-        return id.equals(ItemUtil.getItem(item));
     }
 }

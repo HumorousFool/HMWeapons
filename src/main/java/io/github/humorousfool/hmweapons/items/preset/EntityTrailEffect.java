@@ -1,10 +1,12 @@
 package io.github.humorousfool.hmweapons.items.preset;
 
 import io.github.humorousfool.hmweapons.HMWeapons;
-import org.bukkit.*;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
@@ -20,9 +22,9 @@ public class EntityTrailEffect extends PresetEffect
     final long rate;
     final EntityType entityType;
 
-    public EntityTrailEffect(List<String> args)
+    public EntityTrailEffect(List<String> args, ConditionalFlags flags)
     {
-        super(args, 8);
+        super(args, 8, flags);
 
         startX = Double.parseDouble(args.get(0));
         startY = Double.parseDouble(args.get(1));
@@ -35,7 +37,7 @@ public class EntityTrailEffect extends PresetEffect
     }
 
     @Override
-    public boolean onUse(PlayerInteractEvent event, EquipmentSlot slot)
+    public boolean onInteract(PlayerInteractEvent event, EventContext context)
     {
         new BukkitRunnable()
         {
@@ -74,6 +76,6 @@ public class EntityTrailEffect extends PresetEffect
             }
         }.runTaskTimer(HMWeapons.getInstance(), 0, rate);
 
-        return false;
+        return true;
     }
 }
