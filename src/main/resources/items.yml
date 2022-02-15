@@ -7,6 +7,7 @@ example_item: # Item ID
   Stackable: false # false by default
   AxePower: false # axe's default power will be used and displayed, false by default
   AttackSpeed: 1
+  RepairLives: 10 # 0 by default
   Notes: ["&7This is a note!"] # Added to the lore (Optional)
   PresetEffects: # All Optional
     BLOCK_BREAK!: ["#doors", IRON_BLOCK] # String... blocks (exclamation mark inverts the conditional)
@@ -193,3 +194,24 @@ enchanted_quiver:
     HELD_SLOT: [OFF_HAND]
     RANDOM: [50]
     GIVE_ITEM: [ARROW, 1, false]
+lesser_life_chrystal:
+  Name: "&eLesser Life Chrystal"
+  Type: Repair Item
+  Material: MAGMA_CREAM
+  CustomModelData: 1
+  Notes: ["&7Replenishes 1 life"]
+  RepairLives: 1
+life_chrystal:
+  Name: "&bLife Chrystal"
+  Type: Repair Item
+  Material: MAGMA_CREAM
+  CustomModelData: 2
+  Notes: ["&7Replenishes 5 lives"]
+  RepairLives: 5
+greater_life_chrystal:
+  Name: "&5Greater Life Chrystal"
+  Type: Repair Item
+  Material: MAGMA_CREAM
+  CustomModelData: 3
+  Notes: ["&7Replenishes 10 lives"]
+  RepairLives: 10

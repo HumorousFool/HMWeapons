@@ -6,6 +6,7 @@ import io.github.humorousfool.hmweapons.config.Config;
 import io.github.humorousfool.hmweapons.crafting.ColourManager;
 import io.github.humorousfool.hmweapons.crafting.infusion.materials.CraftingMaterial;
 import io.github.humorousfool.hmweapons.crafting.infusion.materials.MaterialManager;
+import io.github.humorousfool.hmweapons.items.ItemRegistry;
 import io.github.humorousfool.hmweapons.util.AttributeUtil;
 import io.github.humorousfool.hmweapons.util.ItemUtil;
 import io.github.humorousfool.hmweapons.util.MaterialStats;
@@ -145,46 +146,63 @@ public class Forge implements Listener
             {
                 ItemStack shape = event.getView().getTopInventory().getItem(slots[1]);
 
-                if(event.getSlot() == slots[2] && shape != null && shape.getType() != Material.AIR && shape.hasItemMeta() &&
-                        shape.getItemMeta().getPersistentDataContainer().has(ItemUtil.shapeKey, PersistentDataType.STRING))
+                if(event.getSlot() == slots[2] && shape != null && shape.getType() != Material.AIR && shape.hasItemMeta())
                 {
-                    String shapeName = shape.getItemMeta().getPersistentDataContainer().get(ItemUtil.shapeKey, PersistentDataType.STRING);
-
-                    ItemStack mat = event.getView().getTopInventory().getItem(slots[0]);
-
-                    if(ShapeManager.armourShapes.containsKey(shapeName))
+                    // forged
+                    if(shape.getItemMeta().getPersistentDataContainer().has(ItemUtil.shapeKey, PersistentDataType.STRING))
                     {
-                        mat.setAmount(Math.max(0, mat.getAmount() - (ShapeManager.armourShapes.get(shapeName).materialsRequired)));
-                    }
-                    else if(ShapeManager.shapes.containsKey(shapeName))
-                    {
-                        mat.setAmount(Math.max(0, mat.getAmount() - (ShapeManager.shapes.get(shapeName).materialsRequired)));
-                    }
+                        String shapeName = shape.getItemMeta().getPersistentDataContainer().get(ItemUtil.shapeKey, PersistentDataType.STRING);
 
-                    int uses = AttributeUtil.getUses(shape);
-                    if(uses == 1 || uses == 0)
-                    {
-                        event.getView().getTopInventory().setItem(slots[1], new ItemStack(Material.AIR));
-                    }
-                    else if(uses > 1)
-                    {
-                        uses -= 1;
-                        ItemMeta meta = shape.getItemMeta();
-                        AttributeUtil.setUses(meta, uses);
-                        List<String> lore = meta.getLore();
-                        lore.set(lore.size() - 1, ChatColor.GRAY + "(" + uses + "/" + Config.MaxShapeUses + ") Uses");
-                        meta.setLore(lore);
-                        shape.setItemMeta(meta);
-                        event.getView().getTopInventory().setItem(slots[1], shape);
-                    }
+                        ItemStack mat = event.getView().getTopInventory().getItem(slots[0]);
 
-                    Player player = (Player) event.getWhoClicked();
-                    player.playSound(((org.bukkit.block.Dropper) event.getInventory().getHolder()).getLocation(),
-                            Sound.ITEM_BUCKET_FILL_LAVA, SoundCategory.BLOCKS, 1f, 1f);
-                    player.playSound(((org.bukkit.block.Dropper) event.getInventory().getHolder()).getLocation(),
-                            Sound.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.8f, 1f);
-                    player.playSound(((org.bukkit.block.Dropper) event.getInventory().getHolder()).getLocation(),
-                            Sound.BLOCK_ANVIL_PLACE, SoundCategory.BLOCKS, 1f, 1f);
+                        if(ShapeManager.armourShapes.containsKey(shapeName))
+                        {
+                            mat.setAmount(Math.max(0, mat.getAmount() - (ShapeManager.armourShapes.get(shapeName).materialsRequired)));
+                        }
+                        else if(ShapeManager.shapes.containsKey(shapeName))
+                        {
+                            mat.setAmount(Math.max(0, mat.getAmount() - (ShapeManager.shapes.get(shapeName).materialsRequired)));
+                        }
+
+                        int uses = AttributeUtil.getUses(shape);
+                        if(uses == 1 || uses == 0)
+                        {
+                            event.getView().getTopInventory().setItem(slots[1], new ItemStack(Material.AIR));
+                        }
+                        else if(uses > 1)
+                        {
+                            uses -= 1;
+                            ItemMeta meta = shape.getItemMeta();
+                            AttributeUtil.setUses(meta, uses);
+                            List<String> lore = meta.getLore();
+                            lore.set(lore.size() - 1, ChatColor.GRAY + "(" + uses + "/" + Config.MaxShapeUses + ") Uses");
+                            meta.setLore(lore);
+                            shape.setItemMeta(meta);
+                            event.getView().getTopInventory().setItem(slots[1], shape);
+                        }
+
+                        Player player = (Player) event.getWhoClicked();
+                        player.playSound(((org.bukkit.block.Dropper) event.getInventory().getHolder()).getLocation(),
+                                Sound.ITEM_BUCKET_FILL_LAVA, SoundCategory.BLOCKS, 1f, 1f);
+                        player.playSound(((org.bukkit.block.Dropper) event.getInventory().getHolder()).getLocation(),
+                                Sound.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.8f, 1f);
+                        player.playSound(((org.bukkit.block.Dropper) event.getInventory().getHolder()).getLocation(),
+                                Sound.BLOCK_ANVIL_PLACE, SoundCategory.BLOCKS, 1f, 1f);
+                    }
+                    // repaired
+                    else if(ItemUtil.getItem(shape) != null)
+                    {
+                        String id = ItemUtil.getItem(shape);
+                        if(ItemRegistry.items.get(id).repairLives > 0)
+                        {
+                            event.getView().getTopInventory().setItem(slots[0], new ItemStack(Material.AIR));
+                            event.getView().getTopInventory().setItem(slots[1], new ItemStack(Material.AIR));
+
+                            Player player = (Player) event.getWhoClicked();
+                            player.playSound(((org.bukkit.block.Dropper) event.getInventory().getHolder()).getLocation(),
+                                    Sound.BLOCK_ANVIL_USE, SoundCategory.BLOCKS, 1f, 2f);
+                        }
+                    }
                 }
             }
 
@@ -228,16 +246,28 @@ public class Forge implements Listener
 
     private ItemStack getResult(ItemStack first, ItemStack second)
     {
-        if(first == null || first.getType() == Material.AIR) return new ItemStack(Material.AIR);
-        if(second == null || second.getType() == Material.AIR) return new ItemStack(Material.AIR);
+        if(first == null || first.getType() == Material.AIR || !first.hasItemMeta()) return new ItemStack(Material.AIR);
+        if(second == null || second.getType() == Material.AIR || !second.hasItemMeta()) return new ItemStack(Material.AIR);
 
-        if(!second.hasItemMeta() || !second.getItemMeta().getPersistentDataContainer().has(ItemUtil.shapeKey, PersistentDataType.STRING)) return new ItemStack(Material.AIR);
+        ItemMeta firstMeta = first.getItemMeta();
+        ItemMeta secondMeta = second.getItemMeta();
+        int lives = AttributeUtil.getLives(first);
+        if(lives >= 0 && lives < Config.MaxItemLives)
+        {
+            String id = ItemUtil.getItem(second);
+            if(id != null && ItemRegistry.items.containsKey(id) && ItemRegistry.items.get(id).repairLives > 0)
+            {
+                return getRepairResult(first, ItemRegistry.items.get(id).repairLives);
+            }
+        }
 
-        String shapeName = second.getItemMeta().getPersistentDataContainer().get(ItemUtil.shapeKey, PersistentDataType.STRING);
+        if(!secondMeta.getPersistentDataContainer().has(ItemUtil.shapeKey, PersistentDataType.STRING)) return new ItemStack(Material.AIR);
 
-        if(!first.hasItemMeta() || !first.getItemMeta().getPersistentDataContainer().has(ItemUtil.materialKey, PersistentDataType.INTEGER_ARRAY)) return new ItemStack(Material.AIR);
+        String shapeName = secondMeta.getPersistentDataContainer().get(ItemUtil.shapeKey, PersistentDataType.STRING);
 
-        int[] materialIds = first.getItemMeta().getPersistentDataContainer().get(ItemUtil.materialKey, PersistentDataType.INTEGER_ARRAY);
+        if(!firstMeta.getPersistentDataContainer().has(ItemUtil.materialKey, PersistentDataType.INTEGER_ARRAY)) return new ItemStack(Material.AIR);
+
+        int[] materialIds = firstMeta.getPersistentDataContainer().get(ItemUtil.materialKey, PersistentDataType.INTEGER_ARRAY);
         if(materialIds.length < 1 || materialIds.length > 3) return new ItemStack(Material.AIR);
 
         ArrayList<CraftingMaterial> materials = new ArrayList<>();
@@ -443,6 +473,25 @@ public class Forge implements Listener
         item.setItemMeta(meta);
 
         return item;
+    }
+
+    private ItemStack getRepairResult(ItemStack first, int lives)
+    {
+        ItemStack repaired = first.clone();
+        ItemMeta meta = repaired.getItemMeta();
+        int newLives = Math.min(Config.MaxItemLives, AttributeUtil.getLives(meta) + lives);
+        AttributeUtil.setLives(meta, newLives);
+        List<String> lore = meta.getLore();
+        if(lore.size() > 0)
+        {
+            if(lives > 0)
+                lore.set(lore.size() - 1, ChatColor.GRAY + "(" + newLives + "/" + Config.MaxItemLives + ") Lives");
+            else
+                lore.set(lore.size() - 1, ChatColor.RED + "(" + newLives + "/" + Config.MaxItemLives + ") Lives");
+            meta.setLore(lore);
+        }
+        repaired.setItemMeta(meta);
+        return repaired;
     }
 
     @EventHandler

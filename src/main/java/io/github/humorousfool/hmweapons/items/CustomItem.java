@@ -37,6 +37,8 @@ public class CustomItem
     public final MaterialStats stats;
     public final AttackSpeed attackSpeed;
 
+    public final int repairLives;
+
     public final List<String> notes;
 
     public final ArrayList<PresetEffect> effects = new ArrayList<>();
@@ -64,6 +66,8 @@ public class CustomItem
             this.attackSpeed = AttackSpeed.fromInteger(data.getInt("AttackSpeed"));
         else
             this.attackSpeed = null;
+
+        this.repairLives = data.getInt("RepairLives", 0);
 
         if(data.contains("Notes"))
         {
