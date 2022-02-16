@@ -8,6 +8,7 @@ import io.github.humorousfool.hmweapons.crafting.infusion.Infuser;
 import io.github.humorousfool.hmweapons.crafting.infusion.recipes.RecipeManager;
 import io.github.humorousfool.hmweapons.crafting.forging.ShapeManager;
 import io.github.humorousfool.hmweapons.items.ItemRegistry;
+import io.github.humorousfool.hmweapons.listener.CraftListener;
 import io.github.humorousfool.hmweapons.listener.ItemListener;
 import io.github.humorousfool.hmweapons.listener.PlayerListener;
 import io.github.humorousfool.hmweapons.listener.BlockListener;
@@ -47,6 +48,7 @@ public final class HMWeapons extends JavaPlugin
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
         getServer().getPluginManager().registerEvents(new ItemListener(), this);
+        getServer().getPluginManager().registerEvents(new CraftListener(), this);
         getServer().getPluginManager().registerEvents(new Infuser(), this);
         getServer().getPluginManager().registerEvents(new Forge(), this);
 

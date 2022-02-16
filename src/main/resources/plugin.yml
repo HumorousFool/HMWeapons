@@ -24,6 +24,7 @@ commands:
   hmweapons:
     description: Shows plugin info and allows you to reload systems.
     permission: hmweapons.command.hmweapons
+    aliases: ["hmw"]
 
 permissions:
   hmweapons.command.materials:
@@ -43,4 +44,7 @@ permissions:
     default: op
   hmweapons.command.hmweapons.reload:
     description: Allows you tu use the /hmweapons reload command.
+    default: op
+  hmweapons.format:
+    description: Allows you to rename items with format codes.
     default: op

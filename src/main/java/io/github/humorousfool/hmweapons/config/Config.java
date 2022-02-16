@@ -10,6 +10,7 @@ public class Config
     public static int MaxItemLives = 10;
 
     public static boolean OverrideKeepInventory = true;
+    public static boolean NoAnvilRepairCost = true;
 
     public static void update(FileConfiguration file)
     {
@@ -17,5 +18,6 @@ public class Config
         MaxShapeUses = file.getInt("MaxShapeUses", 10);
         MaxItemLives = file.getInt("MaxItemLives", 10);
         OverrideKeepInventory = file.getBoolean("OverrideKeepInventory", true);
+        NoAnvilRepairCost = file.getBoolean("NoAnvilRepairCost", true);
     }
 }

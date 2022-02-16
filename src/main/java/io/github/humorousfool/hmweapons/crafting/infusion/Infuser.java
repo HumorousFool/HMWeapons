@@ -392,7 +392,7 @@ public class Infuser implements Listener
         }
 
         Color colour = ColourManager.averageColours(colours);
-        ColourManager.TextureInfo texture = null;
+        ColourManager.TextureInfo texture;
 
         // If all materials are netherite get an ingot that will float in lava
         if(isNetherite)

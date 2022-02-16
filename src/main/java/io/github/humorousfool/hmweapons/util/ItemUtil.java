@@ -1,7 +1,6 @@
 package io.github.humorousfool.hmweapons.util;
 
 import io.github.humorousfool.hmweapons.HMWeapons;
-import io.github.humorousfool.hmweapons.crafting.infusion.materials.MaterialManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
