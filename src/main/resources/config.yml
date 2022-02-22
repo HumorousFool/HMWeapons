@@ -5,3 +5,5 @@ MaxItemLives: 10
 
 OverrideKeepInventory: true
 NoAnvilRepairCost: true
+
+MaxSkillLevel: 10

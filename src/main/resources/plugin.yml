@@ -12,19 +12,28 @@ commands:
   materials:
     description: Displays all registered materials.
     permission: hmweapons.command.materials
+    usage: /<command>
   crafters:
     description: Displays all available crafters.
     permission: hmweapons.command.crafters
+    usage: /<command>
   shapes:
     description: Displays all registered shapes.
     permission: hmweapons.command.shapes
+    usage: /<command>
   items:
     description: Displays all registered items.
     permission: hmweapons.command.items
+    usage: /<command>
+  skills:
+    description: Opens the skill points menu.
+    permission: hmweapons.command.skills
+    usage: /<command> [player]
   hmweapons:
     description: Shows plugin info and allows you to reload systems.
     permission: hmweapons.command.hmweapons
     aliases: ["hmw"]
+    usage: /<command> [reload] [category]
 
 permissions:
   hmweapons.command.materials:
@@ -44,6 +53,12 @@ permissions:
     default: op
   hmweapons.command.hmweapons.reload:
     description: Allows you tu use the /hmweapons reload command.
+    default: op
+  hmweapons.command.skills:
+    description: Allows you to see and edit skill points.
+    default: op
+  hmweapons.command.skills.other:
+    description: Allows you to see and edit the skill points of other players.
     default: op
   hmweapons.format:
     description: Allows you to rename items with format codes.

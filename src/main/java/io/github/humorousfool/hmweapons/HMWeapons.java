@@ -14,6 +14,7 @@ import io.github.humorousfool.hmweapons.listener.PlayerListener;
 import io.github.humorousfool.hmweapons.listener.BlockListener;
 import io.github.humorousfool.hmweapons.localisation.I18nSupport;
 import io.github.humorousfool.hmweapons.crafting.infusion.materials.MaterialManager;
+import io.github.humorousfool.hmweapons.skills.SkillManager;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -44,6 +45,7 @@ public final class HMWeapons extends JavaPlugin
         reloadRecipes();
         reloadShapes();
         reloadItems();
+        SkillManager.init();
 
         getServer().getPluginManager().registerEvents(new PlayerListener(), this);
         getServer().getPluginManager().registerEvents(new BlockListener(), this);
@@ -51,18 +53,20 @@ public final class HMWeapons extends JavaPlugin
         getServer().getPluginManager().registerEvents(new CraftListener(), this);
         getServer().getPluginManager().registerEvents(new Infuser(), this);
         getServer().getPluginManager().registerEvents(new Forge(), this);
+        getServer().getPluginManager().registerEvents(new SkillManager(), this);
 
         getCommand("materials").setExecutor(new MaterialsCommand());
         getCommand("crafters").setExecutor(new CraftersCommand());
         getCommand("shapes").setExecutor(new ShapesCommand());
         getCommand("items").setExecutor(new ItemsCommand());
+        getCommand("skills").setExecutor(new SkillsCommand());
         getCommand("hmweapons").setExecutor(new HMWeaponsCommand());
     }
 
     @Override
     public void onDisable()
     {
-        // Plugin shutdown logic
+        SkillManager.saveAll();
     }
 
     public void reloadMaterialsAndColours()

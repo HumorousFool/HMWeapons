@@ -3,6 +3,8 @@ package io.github.humorousfool.hmweapons.listener;
 import io.github.humorousfool.hmweapons.HMWeapons;
 import io.github.humorousfool.hmweapons.config.Config;
 import io.github.humorousfool.hmweapons.localisation.I18nSupport;
+import io.github.humorousfool.hmweapons.skills.SkillManager;
+import io.github.humorousfool.hmweapons.skills.SkillSet;
 import io.github.humorousfool.hmweapons.util.AttributeUtil;
 import io.github.humorousfool.hmweapons.util.ItemUtil;
 import org.bukkit.*;
@@ -37,12 +39,15 @@ public class PlayerListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR)
     public void onJoin(PlayerJoinEvent event)
     {
+        SkillManager.loadPlayer(event.getPlayer());
+        SkillManager.updatePlayer(event.getPlayer());
         updateAttributes(event.getPlayer(), EquipmentSlot.OFF_HAND);
     }
 
     @EventHandler(priority = EventPriority.MONITOR)
     public void onRespawn(PlayerRespawnEvent event)
     {
+        SkillManager.updatePlayer(event.getPlayer());
         updateAttributes(event.getPlayer(), EquipmentSlot.OFF_HAND);
     }
 
@@ -84,6 +89,8 @@ public class PlayerListener implements Listener
     @EventHandler(priority = EventPriority.MONITOR)
     public void onLeave(PlayerQuitEvent event)
     {
+        SkillManager.savePlayer(event.getPlayer());
+        SkillManager.unloadPlayer(event.getPlayer());
         damageReductions.remove(event.getPlayer());
     }
 
@@ -97,11 +104,26 @@ public class PlayerListener implements Listener
             Player player = (Player) event.getEntity();
             if(damageReductions.containsKey(player))
                 event.setDamage(event.getDamage() * damageReductions.get(player));
+
+            if(event.getDamager().getType() == EntityType.ARROW)
+            {
+
+            }
         }
 
         if(event.getDamager().getType() == EntityType.PLAYER)
         {
             Player player = (Player) event.getDamager();
+
+            SkillSet skills = SkillManager.getSkills(player);
+            if(skills != null && skills.strength > 0)
+            {
+                if(player.getVelocity().getY() < -0.0784000015258789)
+                    event.setDamage(event.getDamage() + (0.2 * skills.strength));
+                if(skills.strength == Config.MaxSkillLevel)
+                    event.setDamage(event.getDamage() + 1D);
+            }
+
             if(event.getDamage() < 0.9 * player.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).getValue()) return;
 
             ItemStack item = player.getInventory().getItemInMainHand();
@@ -147,6 +169,13 @@ public class PlayerListener implements Listener
         else return;
 
         if(!(event.getEntity() instanceof Arrow arrow)) return;
+
+        SkillSet skills = SkillManager.getSkills(player);
+        if(skills.precision > 0)
+        {
+            arrow.setDamage(arrow.getDamage() + 0.2 * skills.precision);
+        }
+
         ItemStack item = player.getInventory().getItem(slot);
         if(item.getType() == Material.AIR || !item.hasItemMeta()) return;
 

@@ -12,6 +12,8 @@ public class Config
     public static boolean OverrideKeepInventory = true;
     public static boolean NoAnvilRepairCost = true;
 
+    public static int MaxSkillLevel = 10;
+
     public static void update(FileConfiguration file)
     {
         Locale = file.getString("Locale", "en");
@@ -19,5 +21,6 @@ public class Config
         MaxItemLives = file.getInt("MaxItemLives", 10);
         OverrideKeepInventory = file.getBoolean("OverrideKeepInventory", true);
         NoAnvilRepairCost = file.getBoolean("NoAnvilRepairCost", true);
+        MaxSkillLevel = file.getInt("MaxSkillLevel", 10);
     }
 }
